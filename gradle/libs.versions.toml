@@ -1,0 +1,63 @@
+[versions]
+activity-compose = "1.7.2"
+androidx-junit = "1.1.5"
+core-ktx = "1.10.1"
+espresso-core = "3.5.1"
+junit = "4.13.2"
+lifecycle-runtime-ktx = "2.6.1"
+compose-bom = "2023.06.00"
+androidGradlePlugin = "8.0.2"
+androidKotlinPlugin = "1.8.10"
+appcompat = "1.6.1"
+material = "1.9.0"
+org-jetbrains-kotlin-jvm = "1.8.10"
+dagger-hilt = "2.45"
+dagger-hilt-compiler = "2.44.2"
+coil = "2.4.0"
+retrofit = "2.9.0"
+okhttp = "5.0.0-alpha.2"
+moshi = "1.14.0"
+room = "2.5.1"
+pref-datastore = "1.0.0"
+truth = "1.1.3"
+turbine = "0.13.0"
+mockk = "1.13.5"
+mockwebserver = "4.11.0"
+navigation-compose = "2.5.3"
+hilt-navigation-compose = "1.0.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+junit = { module = "junit:junit", version.ref = "junit" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
+dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt-compiler" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+moshi = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+room = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+pref-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "pref-datastore" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "androidKotlinPlugin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt" }

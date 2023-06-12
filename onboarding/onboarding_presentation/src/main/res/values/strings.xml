@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_title">Welcome to Store</string>
+    <string name="welcome_message">You can find and purchase all kind of goodies here.</string>
+    <string name="welcome_icon_description">eshop icon</string>
+
+    <string name="policies_title">Our Policies</string>
+    <string name="policies_message">Please read and confirm or policies.</string>
+    <string name="policies_button_label">Accept</string>
+    <string name="policies_button_icon_description">accept policies button</string>
+
+    <string name="account_title">Create Account</string>
+    <string name="account_message">You can login if you already have an account or register new one.</string>
+    <string name="account_login_button_label">Login</string>
+    <string name="account_login_button_icon_description">login button</string>
+    <string name="account_register_button_label">Register</string>
+    <string name="account_register_button_icon_description">register button</string>
+</resources>

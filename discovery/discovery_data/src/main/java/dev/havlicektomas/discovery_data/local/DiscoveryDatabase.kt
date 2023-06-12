@@ -1,0 +1,14 @@
+package dev.havlicektomas.discovery_data.local
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import dev.havlicektomas.discovery_data.local.entity.ProductEntity
+
+@Database(
+    entities = [ProductEntity::class],
+    version = 1
+)
+abstract class DiscoveryDatabase: RoomDatabase() {
+
+    abstract val dao: ProductDao
+}
