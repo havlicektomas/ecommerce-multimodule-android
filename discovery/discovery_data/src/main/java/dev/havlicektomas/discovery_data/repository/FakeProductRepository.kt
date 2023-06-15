@@ -3,9 +3,12 @@ package dev.havlicektomas.discovery_data.repository
 import dev.havlicektomas.discovery_data.local.ProductDao
 import dev.havlicektomas.discovery_data.mapper.toEntity
 import dev.havlicektomas.discovery_data.mapper.toProduct
+import dev.havlicektomas.discovery_data.mapper.toProductCategory
+import dev.havlicektomas.discovery_data.remote.dto.ProductCategoryDto
 import dev.havlicektomas.discovery_data.remote.dto.ProductDto
 import dev.havlicektomas.discovery_data.remote.dto.ProductSearchDto
 import dev.havlicektomas.discovery_domain.model.Product
+import dev.havlicektomas.discovery_domain.model.ProductCategory
 import dev.havlicektomas.discovery_domain.repository.ProductRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,15 +24,21 @@ class FakeProductRepository @Inject constructor(
         pageSize: Int
     ) {
         val response = fakeProductApiResponse()
-        with(Dispatchers.IO) {
-            deleteAllProducts()
-            saveProducts(response.products)
-        }
+
+        deleteAllProducts()
+        saveProducts(response.products)
+    }
+
+    override suspend fun fetchProductCategories() {
+        val response = fakeProductCategoriesApiResponse()
+
+        deleteAllProductCategories()
+        saveProductCategories(response)
     }
 
     override fun getProducts(): Flow<List<Product>> {
-        return productDao.getProducts().map { entityList ->
-            entityList.map { entity ->
+        return productDao.getProducts().map { entities ->
+            entities.map { entity ->
                 entity.toProduct()
             }
         }
@@ -38,6 +47,14 @@ class FakeProductRepository @Inject constructor(
     override fun getProductById(productId: String): Flow<Product> {
         return productDao.getProductById(productId).map { entity ->
             entity.toProduct()
+        }
+    }
+
+    override fun getProductCategories(): Flow<List<ProductCategory>> {
+        return productDao.getProductCategories().map { entities ->
+            entities.map { entity ->
+                entity.toProductCategory()
+            }
         }
     }
 
@@ -50,6 +67,25 @@ class FakeProductRepository @Inject constructor(
     private fun deleteAllProducts() {
         productDao.deleteProducts()
     }
+
+    private suspend fun saveProductCategories(categories: List<ProductCategoryDto>) {
+        categories.forEach { dto ->
+            productDao.insertCategory(dto.toEntity())
+        }
+    }
+
+    private fun deleteAllProductCategories() {
+        productDao.deleteProductCategories()
+    }
+
+    private fun fakeProductCategoriesApiResponse() = listOf(
+        ProductCategoryDto("Category 1", "", "category1"),
+        ProductCategoryDto("Category 2", "", "category2"),
+        ProductCategoryDto("Category 3", "", "category3"),
+        ProductCategoryDto("Category 4", "", "category4"),
+        ProductCategoryDto("Category 5", "", "category5"),
+        ProductCategoryDto("Category 6", "", "category6"),
+    )
 
     private fun fakeProductApiResponse() = ProductSearchDto(
         page = 1,

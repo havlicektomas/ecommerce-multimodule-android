@@ -1,48 +1,46 @@
 package dev.havlicektomas.discovery_presentation.home
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_presentation.components.HeroImageSlider
-import dev.havlicektomas.discovery_presentation.components.MainBottomBar
-import dev.havlicektomas.discovery_presentation.components.MainTopBar
+import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListConfig
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListState
 
 @Composable
 fun HomeScreen(
+    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    HomeScreenView(state = state)
+    HomeScreenView(
+        state = state,
+        onNavigate = onNavigate
+    )
 }
 
 @Composable
 fun HomeScreenView(
-    state: HomeScreenState
+    state: HomeScreenState,
+    onNavigate: (UiEvent.Navigate) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            MainTopBar(modifier = Modifier.fillMaxWidth())
-        },
-        bottomBar = {
-            MainBottomBar(modifier = Modifier.fillMaxWidth())
-        }
+    MainScreenScaffold(
+        selectedBottomBarItemIndex = 0,
+        onBottomBarItemClick = onNavigate
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier.padding(contentPadding)
@@ -78,7 +76,8 @@ fun WelcomeScreenPreview() {
                     "onsale" to listOf(fakeOnsaleProductDto(), fakeOnsaleProductDto(), fakeOnsaleProductDto()),
                     "foryou" to listOf(fakeForyouProductDto(), fakeForyouProductDto(), fakeForyouProductDto())
                 )
-            )
+            ),
+            onNavigate = {}
         )
     }
 }

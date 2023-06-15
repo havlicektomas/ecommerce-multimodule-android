@@ -1,8 +1,11 @@
 package dev.havlicektomas.discovery_data.mapper
 
+import dev.havlicektomas.discovery_data.local.entity.ProductCategoryEntity
 import dev.havlicektomas.discovery_data.local.entity.ProductEntity
+import dev.havlicektomas.discovery_data.remote.dto.ProductCategoryDto
 import dev.havlicektomas.discovery_data.remote.dto.ProductDto
 import dev.havlicektomas.discovery_domain.model.Product
+import dev.havlicektomas.discovery_domain.model.ProductCategory
 
 fun ProductDto.toEntity() = ProductEntity(
     productId = id,
@@ -22,4 +25,16 @@ fun ProductEntity.toProduct() = Product(
     price = price,
     category = category,
     tag = tag
+)
+
+fun ProductCategoryDto.toEntity() = ProductCategoryEntity(
+    name = name,
+    imageUrl = imageUrl,
+    productsQuery = productsQuery
+)
+
+fun ProductCategoryEntity.toProductCategory() = ProductCategory(
+    name = name,
+    imageUrl = imageUrl,
+    productsQuery = productsQuery
 )

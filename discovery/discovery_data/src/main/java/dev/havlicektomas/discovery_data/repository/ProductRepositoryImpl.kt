@@ -6,6 +6,7 @@ import dev.havlicektomas.discovery_data.mapper.toProduct
 import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.remote.dto.ProductDto
 import dev.havlicektomas.discovery_domain.model.Product
+import dev.havlicektomas.discovery_domain.model.ProductCategory
 import dev.havlicektomas.discovery_domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -28,6 +29,10 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun fetchProductCategories() {
+        TODO("Not yet implemented")
+    }
+
     override fun getProducts(): Flow<List<Product>> {
         return productDao.getProducts().map { entityList ->
             entityList.map { entity ->
@@ -40,6 +45,10 @@ class ProductRepositoryImpl @Inject constructor(
         return productDao.getProductById(productId).map { entity ->
             entity.toProduct()
         }
+    }
+
+    override fun getProductCategories(): Flow<List<ProductCategory>> {
+        TODO("Not yet implemented")
     }
 
     private suspend fun saveProducts(products: List<ProductDto>) {

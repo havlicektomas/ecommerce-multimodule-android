@@ -7,10 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.havlicektomas.discovery_data.local.DiscoveryDatabase
-import dev.havlicektomas.discovery_data.local.ProductDao
 import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.repository.FakeProductRepository
-import dev.havlicektomas.discovery_data.repository.ProductRepositoryImpl
 import dev.havlicektomas.discovery_domain.repository.ProductRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -75,7 +73,7 @@ object DiscoveryDataModule {
         db: DiscoveryDatabase
     ): ProductRepository {
         return FakeProductRepository(
-            productDao = db.dao
+            productDao = db.productDao
         )
     }
 }

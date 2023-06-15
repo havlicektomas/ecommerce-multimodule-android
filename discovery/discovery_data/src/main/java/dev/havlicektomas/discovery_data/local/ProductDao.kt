@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import dev.havlicektomas.discovery_data.local.entity.ProductCategoryEntity
 import dev.havlicektomas.discovery_data.local.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -13,9 +14,6 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(productEntity: ProductEntity)
-
-    @Delete
-    suspend fun deleteProduct(productEntity: ProductEntity)
 
     @Query(
         """
@@ -41,4 +39,23 @@ interface ProductDao {
         """
     )
     fun getProductById(productId: String): Flow<ProductEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCategory(productCategoryEntity: ProductCategoryEntity)
+
+    @Query(
+        """
+            DELETE
+            FROM productcategoryentity
+        """
+    )
+    fun deleteProductCategories()
+
+    @Query(
+        """
+            SELECT *
+            FROM productcategoryentity
+        """
+    )
+    fun getProductCategories(): Flow<List<ProductCategoryEntity>>
 }
