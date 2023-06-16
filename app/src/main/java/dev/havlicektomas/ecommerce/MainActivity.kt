@@ -59,12 +59,12 @@ class MainActivity : ComponentActivity() {
                             onNavigate = navController::navigate
                         )
                     }
-                    composable(Route.FAVORITES) {
+                    composable(Route.SEARCH) {
                         SearchScreen(
                             onNavigate = navController::navigate
                         )
                     }
-                    composable(Route.SEARCH) {
+                    composable(Route.FAVORITES) {
                         //
                     }
                 }
