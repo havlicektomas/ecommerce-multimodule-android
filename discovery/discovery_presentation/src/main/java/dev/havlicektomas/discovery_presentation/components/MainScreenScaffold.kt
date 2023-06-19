@@ -2,7 +2,6 @@ package dev.havlicektomas.discovery_presentation.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,11 +16,10 @@ fun MainScreenScaffold(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            MainTopBar(modifier = Modifier.fillMaxWidth())
+            MainTopAppBar()
         },
         bottomBar = {
-            MainBottomBar(
-                modifier = Modifier.fillMaxWidth(),
+            MainBottomNavBar(
                 selectedItemIndex = selectedBottomBarItemIndex,
                 onItemClick = onBottomBarItemClick
             )

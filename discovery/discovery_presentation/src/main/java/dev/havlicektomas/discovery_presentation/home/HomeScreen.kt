@@ -66,7 +66,7 @@ fun HomeScreenView(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun WelcomeScreenPreview() {
+fun HomeScreenPreview() {
     EcommercemultimoduleTheme {
         HomeScreenView(
             state = HomeScreenState(
