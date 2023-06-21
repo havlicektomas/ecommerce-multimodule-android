@@ -3,6 +3,8 @@ package dev.havlicektomas.ecommerce.presentation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +24,18 @@ fun SplashScreen(
 ) {
     val onboardingCompleted by viewModel.onboardingCompleted.collectAsState()
 
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+        }
+    }
+
     LaunchedEffect(key1 = true) {
         // TODO: for testing only
         delay(1.seconds)
@@ -31,12 +45,5 @@ fun SplashScreen(
         } else {
             onNavigateAndPop(UiEvent.Navigate(Route.ONBOARDING), Route.SPLASH)
         }
-    }
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
     }
 }
