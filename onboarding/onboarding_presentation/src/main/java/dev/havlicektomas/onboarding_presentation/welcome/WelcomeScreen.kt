@@ -14,9 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,27 +24,17 @@ import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
-import dev.havlicektomas.ecommerce.R
-import dev.havlicektomas.onboarding_presentation.OnboardingViewModel
 import dev.havlicektomas.onboarding_presentation.components.OnboardingScreen
+import dev.havlicektomas.ecommerce.R.string as OnboardingStrings
 
 @Composable
 fun WelcomeScreen(
-    viewModel: OnboardingViewModel,
-    onNavigate: (UiEvent.Navigate) -> Unit,
-    onNavigateAndPop: (UiEvent.Navigate, String) -> Unit
+    onNavigate: (UiEvent.Navigate) -> Unit
 ) {
-    val onboardingCompleted by viewModel.onboardingCompleted.collectAsState()
 
-    if (onboardingCompleted) {
-        LaunchedEffect(key1 = true) {
-            onNavigateAndPop(UiEvent.Navigate(Route.HOME), Route.WELCOME)
-        }
-    } else {
-        WelcomeScreenView(
-            onNavigate = onNavigate
-        )
-    }
+    WelcomeScreenView(
+        onNavigate = onNavigate
+    )
 }
 
 @Composable
@@ -68,18 +55,18 @@ fun WelcomeScreenView(
         ) {
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
-                contentDescription = stringResource(id = R.string.welcome_icon_description),
+                contentDescription = stringResource(id = OnboardingStrings.welcome_icon_description),
                 modifier = Modifier.size(56.dp)
             )
             Spacer(modifier = Modifier.height(spacing.spaceLarge))
             Text(
-                text = stringResource(id = R.string.welcome_title),
+                text = stringResource(id = OnboardingStrings.welcome_title),
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(spacing.spaceSmall))
             Text(
-                text = stringResource(id = R.string.welcome_message),
+                text = stringResource(id = OnboardingStrings.welcome_message),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
             )

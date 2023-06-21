@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="welcome_icon_description">eshop icon</string>
     <string name="welcome_title">Welcome to Store</string>
     <string name="welcome_message">You can find and purchase all kind of goodies here.</string>
-    <string name="welcome_icon_description">eshop icon</string>
 
     <string name="policies_title">Our Policies</string>
     <string name="policies_message">Please read and confirm or policies.</string>

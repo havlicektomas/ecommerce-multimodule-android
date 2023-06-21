@@ -1,35 +1,28 @@
-package dev.havlicektomas.onboarding_presentation
+package dev.havlicektomas.ecommerce.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.havlicektomas.core.domain.preferences.UserPreferencesRepository
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor(
+class SplashScreenViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel() {
 
-    val policyAcceptedState = userPreferencesRepository.loadPolicyResponse()
+    val onboardingCompleted = combine(
+        userPreferencesRepository.loadPolicyResponse(),
+        userPreferencesRepository.loadUserSession()
+    ) { policyAccepted, userSession ->
+        return@combine policyAccepted && userSession.isNotEmpty()
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = false
         )
-
-    fun savePolicyAccepted(accepted: Boolean) {
-        viewModelScope.launch {
-            userPreferencesRepository.savePolicyResponse(accepted)
-        }
-    }
-
-    fun saveUserSession(session: String) {
-        viewModelScope.launch {
-            userPreferencesRepository.saveUserSession(session)
-        }
-    }
 }

@@ -10,11 +10,13 @@ import androidx.navigation.navigation
 import dagger.hilt.android.AndroidEntryPoint
 import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
+import dev.havlicektomas.discovery_presentation.favourite.FavouritesScreen
 import dev.havlicektomas.discovery_presentation.home.HomeScreen
 import dev.havlicektomas.discovery_presentation.search.SearchScreen
 import dev.havlicektomas.ecommerce.extension.navigate
 import dev.havlicektomas.ecommerce.extension.navigateAndPop
 import dev.havlicektomas.ecommerce.extension.sharedViewModel
+import dev.havlicektomas.ecommerce.presentation.SplashScreen
 import dev.havlicektomas.onboarding_presentation.account.AccountScreen
 import dev.havlicektomas.onboarding_presentation.policy.PolicyScreen
 import dev.havlicektomas.onboarding_presentation.welcome.WelcomeScreen
@@ -28,17 +30,20 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Route.ONBOARDING
+                    startDestination = Route.SPLASH
                 ) {
+                    composable(Route.SPLASH) {
+                        SplashScreen(
+                            onNavigateAndPop = navController::navigateAndPop
+                        )
+                    }
                     navigation(
                         startDestination = Route.WELCOME,
                         route = Route.ONBOARDING
                     ) {
                         composable(Route.WELCOME) {
                             WelcomeScreen(
-                                viewModel = it.sharedViewModel(navController = navController),
-                                onNavigate = navController::navigate,
-                                onNavigateAndPop = navController::navigateAndPop
+                                onNavigate = navController::navigate
                             )
                         }
                         composable(Route.POLICIES) {
@@ -65,7 +70,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(Route.FAVORITES) {
-                        //
+                        FavouritesScreen(
+                            onNavigate = navController::navigate
+                        )
                     }
                 }
             }

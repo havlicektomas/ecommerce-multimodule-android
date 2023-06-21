@@ -2,6 +2,8 @@ package dev.havlicektomas.core.navigation
 
 object Route {
 
+    const val SPLASH = "splash"
+
     const val ONBOARDING = "onboarding"
     const val WELCOME = "welcome"
     const val POLICIES = "policies"
