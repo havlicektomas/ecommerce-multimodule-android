@@ -3,7 +3,7 @@ package dev.havlicektomas.discovery_presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.havlicektomas.discovery_domain.usecase.ProductUseCases
+import dev.havlicektomas.discovery_domain.usecase.search.SearchProductUseCases
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val productUseCases: ProductUseCases
+    private val productUseCases: SearchProductUseCases
 ): ViewModel() {
 
     private val defaultState = HomeScreenState(

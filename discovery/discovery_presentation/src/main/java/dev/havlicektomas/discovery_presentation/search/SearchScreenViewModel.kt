@@ -3,7 +3,7 @@ package dev.havlicektomas.discovery_presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.havlicektomas.discovery_domain.usecase.ProductUseCases
+import dev.havlicektomas.discovery_domain.usecase.search.SearchProductUseCases
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val productUseCases: ProductUseCases
+    private val productUseCases: SearchProductUseCases
 ): ViewModel() {
 
     private val defaultState = SearchScreenState("", "", emptyList())
@@ -35,8 +35,8 @@ class SearchScreenViewModel @Inject constructor(
 
     fun onEvent(event: SearchScreenEvent) {
         when (event) {
-            SearchScreenEvent.onSearchInputChanged -> { searchProducts("query") }
-            SearchScreenEvent.onCategoryClick -> { searchProducts("category-name") }
+            is SearchScreenEvent.onSearchInputChanged -> { searchProducts("query") }
+            is SearchScreenEvent.onCategoryClick -> { searchProducts("category-name") }
         }
     }
 

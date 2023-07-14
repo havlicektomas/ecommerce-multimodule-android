@@ -10,7 +10,7 @@ import dev.havlicektomas.discovery_domain.usecase.FetchProductCategoriesUseCase
 import dev.havlicektomas.discovery_domain.usecase.GetProductByIdUseCase
 import dev.havlicektomas.discovery_domain.usecase.GetProductCategoriesUseCase
 import dev.havlicektomas.discovery_domain.usecase.GetProductsUseCase
-import dev.havlicektomas.discovery_domain.usecase.ProductUseCases
+import dev.havlicektomas.discovery_domain.usecase.search.SearchProductUseCases
 import dev.havlicektomas.discovery_domain.usecase.SearchProductsUseCase
 
 @Module
@@ -21,8 +21,8 @@ object DiscoveryDomainModule {
     @Provides
     fun provideProductUseCases(
         repository: ProductRepository
-    ): ProductUseCases {
-        return ProductUseCases(
+    ): SearchProductUseCases {
+        return SearchProductUseCases(
             searchProductsUseCase = SearchProductsUseCase(repository),
             getProductsUseCase = GetProductsUseCase(repository),
             getProductByIdUseCase = GetProductByIdUseCase(repository),

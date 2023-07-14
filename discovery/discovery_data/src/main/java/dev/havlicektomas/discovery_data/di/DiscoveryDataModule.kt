@@ -9,6 +9,8 @@ import dagger.hilt.components.SingletonComponent
 import dev.havlicektomas.discovery_data.local.DiscoveryDatabase
 import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.repository.FakeProductRepository
+import dev.havlicektomas.discovery_data.repository.FavouriteProductRepositoryImpl
+import dev.havlicektomas.discovery_domain.repository.FavouriteProductRepository
 import dev.havlicektomas.discovery_domain.repository.ProductRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -74,6 +76,18 @@ object DiscoveryDataModule {
     ): ProductRepository {
         return FakeProductRepository(
             productDao = db.productDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteProductRepository(
+        api: ProductApi,
+        db: DiscoveryDatabase
+    ): FavouriteProductRepository {
+        return FavouriteProductRepositoryImpl(
+            productApi = api,
+            favouriteProductDao = db.favouriteProductDao
         )
     }
 }
