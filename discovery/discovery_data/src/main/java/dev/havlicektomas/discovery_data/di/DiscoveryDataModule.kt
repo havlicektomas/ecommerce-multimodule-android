@@ -2,6 +2,8 @@ package dev.havlicektomas.discovery_data.di
 
 import android.app.Application
 import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,9 +40,14 @@ object DiscoveryDataModule {
     @Provides
     @Singleton
     fun provideProductApi(client: OkHttpClient): ProductApi {
+
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(ProductApi.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(client)
             .build()
             .create()
