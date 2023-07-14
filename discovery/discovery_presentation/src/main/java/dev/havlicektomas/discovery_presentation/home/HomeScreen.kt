@@ -5,15 +5,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
+import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.discovery_domain.model.Product
+import dev.havlicektomas.discovery_presentation.components.BottomBarItem
 import dev.havlicektomas.discovery_presentation.components.HeroImageSlider
 import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
@@ -22,6 +29,7 @@ import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
 
 @Composable
 fun HomeScreen(
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
@@ -29,6 +37,7 @@ fun HomeScreen(
 
     HomeScreenView(
         state = state,
+        currentDestination = currentDestination,
         onNavigate = onNavigate
     )
 }
@@ -36,10 +45,11 @@ fun HomeScreen(
 @Composable
 fun HomeScreenView(
     state: HomeScreenState,
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     MainScreenScaffold(
-        selectedBottomBarItemIndex = 0,
+        currentDestination = currentDestination,
         onBottomBarItemClick = onNavigate
     ) { contentPadding ->
         LazyColumn(
@@ -77,6 +87,7 @@ fun HomeScreenPreview() {
                     "foryou" to listOf(fakeForyouProductDto(), fakeForyouProductDto(), fakeForyouProductDto())
                 )
             ),
+            currentDestination = null,
             onNavigate = {}
         )
     }

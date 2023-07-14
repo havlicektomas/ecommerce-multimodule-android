@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
@@ -27,6 +28,7 @@ import dev.havlicektomas.discovery_presentation.components.SearchTextField
 
 @Composable
 fun SearchScreen(
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SearchScreenViewModel = hiltViewModel()
 ) {
@@ -34,6 +36,7 @@ fun SearchScreen(
 
     SearchScreenView(
         state = state,
+        currentDestination = currentDestination,
         onNavigate = onNavigate
     )
 }
@@ -41,12 +44,13 @@ fun SearchScreen(
 @Composable
 fun SearchScreenView(
     state: SearchScreenState,
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     val spacing = LocalSpacing.current
 
     MainScreenScaffold(
-        selectedBottomBarItemIndex = 1,
+        currentDestination = currentDestination,
         onBottomBarItemClick = onNavigate
     ) { contentPadding ->
         Column(
@@ -93,6 +97,7 @@ fun SearchScreenPreview() {
                     ProductCategory("Category 6", "", "category6"),
                 )
             ),
+            currentDestination = null,
             onNavigate = {}
         )
     }

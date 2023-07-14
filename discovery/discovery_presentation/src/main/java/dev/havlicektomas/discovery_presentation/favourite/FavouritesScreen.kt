@@ -9,12 +9,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
 
 @Composable
 fun FavouritesScreen(
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: FavouritesViewModel = hiltViewModel()
 ) {
@@ -22,6 +24,7 @@ fun FavouritesScreen(
 
     FavouritesScreenView(
         state = state,
+        currentDestination = currentDestination,
         onNavigate = onNavigate
     )
 }
@@ -29,10 +32,11 @@ fun FavouritesScreen(
 @Composable
 fun FavouritesScreenView(
     state: FavouritesScreenState,
+    currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     MainScreenScaffold(
-        selectedBottomBarItemIndex = 2,
+        currentDestination = currentDestination,
         onBottomBarItemClick = onNavigate
     ) { contentPadding ->
         LazyColumn(
@@ -50,6 +54,7 @@ fun HomeScreenPreview() {
     EcommercemultimoduleTheme {
         FavouritesScreenView(
             state = FavouritesScreenState(emptyList()),
+            currentDestination = null,
             onNavigate = {}
         )
     }

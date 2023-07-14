@@ -6,58 +6,52 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 
+data class BottomBarItem(
+    val icon: ImageVector,
+    val label: String,
+    val route: String,
+)
+
 @Composable
 fun MainBottomNavBar(
     modifier: Modifier = Modifier,
-    selectedItemIndex: Int = 0,
-    onItemClick: (event: UiEvent.Navigate) -> Unit
+    currentDestination: NavDestination?,
+    items: List<BottomBarItem>,
+    onItemClick: (event: UiEvent.Navigate) -> Unit = {}
 ) {
     BottomAppBar(
         modifier = modifier
     ) {
-        NavigationBar {
+        items.forEach { item ->
             NavigationBarItem(
-                selected = selectedItemIndex == 0,
-                onClick = { onItemClick(UiEvent.Navigate(Route.HOME)) },
-                icon = { 
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "home")
-                },
-                label = {
-                    Text("Home")
-                },
-                alwaysShowLabel = true
-            )
-            NavigationBarItem(
-                selected = selectedItemIndex == 1,
-                onClick = { onItemClick(UiEvent.Navigate(Route.SEARCH)) },
                 icon = {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "search")
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = null
+                    )
                 },
                 label = {
-                    Text("Search")
+                    Text(
+                        text = item.label
+                    )
                 },
-                alwaysShowLabel = true
-            )
-            NavigationBarItem(
-                selected = selectedItemIndex == 2,
-                onClick = { onItemClick(UiEvent.Navigate(Route.FAVORITES)) },
-                icon = {
-                    Icon(imageVector = Icons.Default.Star, contentDescription = "favourite")
-                },
-                label = {
-                    Text("Favourites")
-                },
-                alwaysShowLabel = true
+                alwaysShowLabel = true,
+                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                onClick = {
+                    onItemClick(UiEvent.Navigate(item.route))
+                }
             )
         }
     }
@@ -68,8 +62,24 @@ fun MainBottomNavBar(
 fun MainBottomNavBarPreview() {
     EcommercemultimoduleTheme {
         MainBottomNavBar(
-            selectedItemIndex = 0,
-            onItemClick = {}
+            currentDestination = null,
+            items = listOf(
+                BottomBarItem(
+                    icon = Icons.Default.Home,
+                    label = "Home",
+                    route = Route.HOME
+                ),
+                BottomBarItem(
+                    icon = Icons.Default.Search,
+                    label = "Search",
+                    route = Route.SEARCH
+                ),
+                BottomBarItem(
+                    icon = Icons.Default.Star,
+                    label = "Favourites",
+                    route = Route.FAVORITES
+                )
+            )
         )
     }
 }
