@@ -35,10 +35,11 @@ fun HeroImageSlider(
 ) {
     val spacing = LocalSpacing.current
     val pageCount = images.size
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = {
+        pageCount
+    })
 
     HorizontalPager(
-        pageCount = pageCount,
         state = pagerState
     ) { page ->
         val image = images[page]
