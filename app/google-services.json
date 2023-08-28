@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "785611906898",
+    "project_id": "ecommerce-multimodule",
+    "storage_bucket": "ecommerce-multimodule.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785611906898:android:4045eddd8569fdd57de48b",
+        "android_client_info": {
+          "package_name": "dev.havlicektomas.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785611906898-4jeq9n8gc5rgjlefa1105srt6rs9isi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIzjp2EGDr1Hd5wU5kF4S4xDu3kO7u6dU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785611906898-4jeq9n8gc5rgjlefa1105srt6rs9isi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
