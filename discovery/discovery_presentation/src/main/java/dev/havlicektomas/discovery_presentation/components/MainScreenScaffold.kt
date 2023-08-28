@@ -6,19 +6,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavDestination
 import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.core.util.UiEvent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenScaffold(
     currentDestination: NavDestination?,
     onBottomBarItemClick: (event: UiEvent.Navigate) -> Unit,
     content: @Composable (contentPadding: PaddingValues) -> Unit
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     val bottomBarItems = listOf(
         BottomBarItem(
             icon = Icons.Default.Home,
@@ -38,9 +44,13 @@ fun MainScreenScaffold(
     )
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            MainTopAppBar()
+            MainTopAppBar(
+                scrollBehavior = scrollBehavior
+            )
         },
         bottomBar = {
             MainBottomNavBar(

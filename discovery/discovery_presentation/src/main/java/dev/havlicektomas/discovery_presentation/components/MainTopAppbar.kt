@@ -10,19 +10,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
-import dev.havlicektomas.coreui.theme.LocalSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopAppBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
-    val spacing = LocalSpacing.current
-
     TopAppBar(
         title = {
             Row(
@@ -51,14 +51,18 @@ fun MainTopAppBar(
                     contentDescription = "cart"
                 )
             }
-        }
+        },
+        scrollBehavior = scrollBehavior
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun MainTopAppBarPreview() {
     EcommercemultimoduleTheme {
-        MainTopAppBar()
+        MainTopAppBar(
+            scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+        )
     }
 }
