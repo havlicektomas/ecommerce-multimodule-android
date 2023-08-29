@@ -117,7 +117,8 @@ class ProductRepositoryImpl @Inject constructor(
         description = "Some description goes here",
         price = 9.99,
         category = "Category1",
-        tag = "featured"
+        tag = "featured",
+        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
     )
 
     private fun fakeOnsaleProductDto() = ProductDto(
@@ -127,7 +128,8 @@ class ProductRepositoryImpl @Inject constructor(
         description = "Some description goes here",
         price = 9.99,
         category = "Category1",
-        tag = "onsale"
+        tag = "onsale",
+        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
     )
 
     private fun fakeForyouProductDto() = ProductDto(
@@ -137,6 +139,7 @@ class ProductRepositoryImpl @Inject constructor(
         description = "Some description goes here",
         price = 9.99,
         category = "Category1",
-        tag = "foryou"
+        tag = "foryou",
+        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
     )
 }

@@ -15,7 +15,8 @@ fun ProductDto.toEntity() = ProductEntity(
     description = description,
     price = price,
     category = category,
-    tag = tag
+    tag = tag,
+    imageUrl = imageUrl
 )
 
 fun ProductEntity.toProduct() = Product(
@@ -25,7 +26,8 @@ fun ProductEntity.toProduct() = Product(
     description = description,
     price = price,
     category = category,
-    tag = tag
+    tag = tag,
+    imageUrl = imageUrl
 )
 
 fun Product.toProductDto() = ProductDto(
@@ -35,7 +37,8 @@ fun Product.toProductDto() = ProductDto(
     description = description,
     price = price,
     category = category,
-    tag = tag
+    tag = tag,
+    imageUrl = imageUrl
 )
 
 fun ProductCategoryDto.toEntity() = ProductCategoryEntity(
@@ -57,7 +60,8 @@ fun ProductDto.toFavouriteEntity() = FavouriteProductEntity(
     description = description,
     price = price,
     category = category,
-    tag = tag
+    tag = tag,
+    imageUrl = imageUrl
 )
 
 fun FavouriteProductEntity.toProduct() = Product(
@@ -67,5 +71,6 @@ fun FavouriteProductEntity.toProduct() = Product(
     description = description,
     price = price,
     category = category,
-    tag = tag
+    tag = tag,
+    imageUrl = imageUrl
 )

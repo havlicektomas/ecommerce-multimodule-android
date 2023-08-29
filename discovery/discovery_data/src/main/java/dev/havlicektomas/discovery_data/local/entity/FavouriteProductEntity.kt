@@ -13,5 +13,6 @@ data class FavouriteProductEntity(
     val price: Double,
     val category: String,
     val tag: String,
+    val imageUrl: String,
     @PrimaryKey val id: Int? = null
 )

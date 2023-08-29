@@ -68,6 +68,7 @@ class FavouriteProductRepositoryImpl(
         description = "Some description goes here",
         price = 9.99,
         category = "Category1",
-        tag = "featured"
+        tag = "featured",
+        imageUrl = ""
     )
 }
