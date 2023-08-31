@@ -3,9 +3,12 @@ package dev.havlicektomas.discovery_presentation.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,6 +22,7 @@ import dev.havlicektomas.core.util.UiEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenScaffold(
+    badgeCount: Int = 0,
     currentDestination: NavDestination?,
     onBottomBarItemClick: (event: UiEvent.Navigate) -> Unit,
     content: @Composable (contentPadding: PaddingValues) -> Unit
@@ -27,17 +31,20 @@ fun MainScreenScaffold(
 
     val bottomBarItems = listOf(
         BottomBarItem(
-            icon = Icons.Default.Home,
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
             label = "Home",
             route = Route.HOME
         ),
         BottomBarItem(
-            icon = Icons.Default.Search,
+            selectedIcon = Icons.Filled.Search,
+            unselectedIcon = Icons.Outlined.Search,
             label = "Search",
             route = Route.SEARCH
         ),
         BottomBarItem(
-            icon = Icons.Default.Star,
+            selectedIcon = Icons.Filled.Favorite,
+            unselectedIcon = Icons.Outlined.FavoriteBorder,
             label = "Favourites",
             route = Route.FAVORITES
         )
@@ -49,6 +56,7 @@ fun MainScreenScaffold(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MainTopAppBar(
+                badgeCount = badgeCount,
                 scrollBehavior = scrollBehavior
             )
         },

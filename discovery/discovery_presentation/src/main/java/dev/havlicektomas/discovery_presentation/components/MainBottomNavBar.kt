@@ -1,9 +1,12 @@
 package dev.havlicektomas.discovery_presentation.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -19,7 +22,8 @@ import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 
 data class BottomBarItem(
-    val icon: ImageVector,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector,
     val label: String,
     val route: String,
 )
@@ -35,10 +39,13 @@ fun MainBottomNavBar(
         modifier = modifier
     ) {
         items.forEach { item ->
+
+            val isSelected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = item.icon,
+                        imageVector = if (isSelected) item.selectedIcon else item.unselectedIcon,
                         contentDescription = null
                     )
                 },
@@ -48,7 +55,7 @@ fun MainBottomNavBar(
                     )
                 },
                 alwaysShowLabel = true,
-                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                selected = isSelected,
                 onClick = {
                     onItemClick(UiEvent.Navigate(item.route))
                 }
@@ -65,17 +72,20 @@ fun MainBottomNavBarPreview() {
             currentDestination = null,
             items = listOf(
                 BottomBarItem(
-                    icon = Icons.Default.Home,
+                    selectedIcon = Icons.Filled.Home,
+                    unselectedIcon = Icons.Outlined.Home,
                     label = "Home",
                     route = Route.HOME
                 ),
                 BottomBarItem(
-                    icon = Icons.Default.Search,
+                    selectedIcon = Icons.Filled.Search,
+                    unselectedIcon = Icons.Outlined.Search,
                     label = "Search",
                     route = Route.SEARCH
                 ),
                 BottomBarItem(
-                    icon = Icons.Default.Star,
+                    selectedIcon = Icons.Filled.Favorite,
+                    unselectedIcon = Icons.Outlined.FavoriteBorder,
                     label = "Favourites",
                     route = Route.FAVORITES
                 )

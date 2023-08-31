@@ -44,6 +44,7 @@ fun HomeScreenView(
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     MainScreenScaffold(
+        badgeCount = 0,
         currentDestination = currentDestination,
         onBottomBarItemClick = onNavigate
     ) { contentPadding ->
