@@ -19,36 +19,39 @@ import androidx.navigation.NavDestination
 import dev.havlicektomas.core.navigation.Route
 import dev.havlicektomas.core.util.UiEvent
 
+val navBarItems = listOf(
+    BottomBarItem(
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Outlined.Home,
+        label = "Home",
+        route = Route.HOME
+    ),
+    BottomBarItem(
+        selectedIcon = Icons.Filled.Search,
+        unselectedIcon = Icons.Outlined.Search,
+        label = "Search",
+        route = Route.SEARCH
+    ),
+    BottomBarItem(
+        selectedIcon = Icons.Filled.Favorite,
+        unselectedIcon = Icons.Outlined.FavoriteBorder,
+        label = "Favourites",
+        route = Route.FAVORITES
+    )
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenScaffold(
+    shouldShowNavRail: Boolean = false,
     badgeCount: Int = 0,
     currentDestination: NavDestination?,
     onBottomBarItemClick: (event: UiEvent.Navigate) -> Unit,
     content: @Composable (contentPadding: PaddingValues) -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-    val bottomBarItems = listOf(
-        BottomBarItem(
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-            label = "Home",
-            route = Route.HOME
-        ),
-        BottomBarItem(
-            selectedIcon = Icons.Filled.Search,
-            unselectedIcon = Icons.Outlined.Search,
-            label = "Search",
-            route = Route.SEARCH
-        ),
-        BottomBarItem(
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.FavoriteBorder,
-            label = "Favourites",
-            route = Route.FAVORITES
-        )
-    )
+    val portraitScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val landscapeScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = if (shouldShowNavRail) landscapeScrollBehavior else portraitScrollBehavior
 
     Scaffold(
         modifier = Modifier
@@ -61,11 +64,13 @@ fun MainScreenScaffold(
             )
         },
         bottomBar = {
-            MainBottomNavBar(
-                currentDestination = currentDestination,
-                items = bottomBarItems,
-                onItemClick = onBottomBarItemClick
-            )
+            if (!shouldShowNavRail) {
+                MainBottomNavBar(
+                    currentDestination = currentDestination,
+                    items = navBarItems,
+                    onItemClick = onBottomBarItemClick
+                )
+            }
         }
     ) { contentPadding ->
         content(contentPadding)

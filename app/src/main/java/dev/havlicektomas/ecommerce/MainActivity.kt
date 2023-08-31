@@ -3,6 +3,8 @@ package dev.havlicektomas.ecommerce
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,6 +26,7 @@ import dev.havlicektomas.onboarding_presentation.account.AccountScreen
 import dev.havlicektomas.onboarding_presentation.policy.PolicyScreen
 import dev.havlicektomas.onboarding_presentation.welcome.WelcomeScreen
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,7 @@ class MainActivity : ComponentActivity() {
             EcommercemultimoduleTheme {
                 val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val windowClass = calculateWindowSizeClass(this)
                 NavHost(
                     navController = navController,
                     startDestination = Route.SPLASH
@@ -65,18 +69,21 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Route.HOME) {
                         HomeScreen(
+                            windowClass = windowClass,
                             currentDestination = navBackStackEntry?.destination,
                             onNavigate = navController::navigateBottomBar
                         )
                     }
                     composable(Route.SEARCH) {
                         SearchScreen(
+                            windowClass = windowClass,
                             currentDestination = navBackStackEntry?.destination,
                             onNavigate = navController::navigateBottomBar
                         )
                     }
                     composable(Route.FAVORITES) {
                         FavouritesScreen(
+                            windowClass = windowClass,
                             currentDestination = navBackStackEntry?.destination,
                             onNavigate = navController::navigateBottomBar
                         )

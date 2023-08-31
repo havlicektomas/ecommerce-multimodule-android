@@ -54,7 +54,6 @@ fun MainBottomNavBar(
                         text = item.label
                     )
                 },
-                alwaysShowLabel = true,
                 selected = isSelected,
                 onClick = {
                     onItemClick(UiEvent.Navigate(item.route))

@@ -4,10 +4,14 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,21 +24,27 @@ import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.ProductCategory
+import dev.havlicektomas.discovery_presentation.components.MainNavigationRail
 import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCard
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardConfig
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardState
 import dev.havlicektomas.discovery_presentation.components.SearchTextField
+import dev.havlicektomas.discovery_presentation.components.navBarItems
 
 @Composable
 fun SearchScreen(
+    windowClass: WindowSizeClass,
     currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: SearchScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
+    val shouldShowNavRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
+
     SearchScreenView(
+        shouldShowNavRail = shouldShowNavRail,
         state = state,
         currentDestination = currentDestination,
         onNavigate = onNavigate
@@ -43,36 +53,49 @@ fun SearchScreen(
 
 @Composable
 fun SearchScreenView(
+    shouldShowNavRail: Boolean,
     state: SearchScreenState,
     currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     val spacing = LocalSpacing.current
 
-    MainScreenScaffold(
-        currentDestination = currentDestination,
-        onBottomBarItemClick = onNavigate
-    ) { contentPadding ->
-        Column(
-            modifier = Modifier.padding(contentPadding)
-        ) {
-            SearchTextField(
-                text = "Search",
-                onTextChange = {},
-                onSearchClick = {}
+    Row(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (shouldShowNavRail) {
+            MainNavigationRail(
+                currentDestination = currentDestination,
+                items = navBarItems,
+                onItemClick = onNavigate
             )
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 136.dp),
-                contentPadding = PaddingValues(spacing.spaceSmall),
-                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                modifier = Modifier
+        }
+        MainScreenScaffold(
+            shouldShowNavRail = shouldShowNavRail,
+            currentDestination = currentDestination,
+            onBottomBarItemClick = onNavigate
+        ) { contentPadding ->
+            Column(
+                modifier = Modifier.padding(contentPadding)
             ) {
-                items(state.productCategories) {category ->
-                    ProductCategoryCard(
-                        state = ProductCategoryCardState(name = category.name),
-                        config = ProductCategoryCardConfig(onClick = {})
-                    )
+                SearchTextField(
+                    text = "Search",
+                    onTextChange = {},
+                    onSearchClick = {}
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 136.dp),
+                    contentPadding = PaddingValues(spacing.spaceSmall),
+                    verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                    modifier = Modifier
+                ) {
+                    items(state.productCategories) {category ->
+                        ProductCategoryCard(
+                            state = ProductCategoryCardState(name = category.name),
+                            config = ProductCategoryCardConfig(onClick = {})
+                        )
+                    }
                 }
             }
         }
@@ -85,6 +108,7 @@ fun SearchScreenView(
 fun SearchScreenPreview() {
     EcommercemultimoduleTheme {
         SearchScreenView(
+            shouldShowNavRail = false,
             state = SearchScreenState(
                 searchInput = "",
                 searchPlaceHolder = "Search ...",
