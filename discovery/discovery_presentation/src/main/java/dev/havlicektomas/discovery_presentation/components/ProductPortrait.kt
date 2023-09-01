@@ -1,7 +1,6 @@
 package dev.havlicektomas.discovery_presentation.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -26,14 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.Product
-import dev.havlicektomas.ecommerce.R
 
 data class ProductPortraitState(
     val product: Product
@@ -53,7 +48,7 @@ fun ProductPortrait(
 ) {
     val spacing = LocalSpacing.current
 
-    Card(onClick = { /*TODO*/ }) {
+    Card(onClick = { config.onClick() }) {
         Column(
             modifier = modifier.width(144.dp)
         ) {
@@ -100,12 +95,12 @@ fun ProductPortrait(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = spacing.spaceSmall)
                 )
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { config.onAddToCartClick() }) {
                     Row {
                         Text(text = "+")
                         Icon(
                             imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "product image"
+                            contentDescription = "cart icon"
                         )
                     }
                 }

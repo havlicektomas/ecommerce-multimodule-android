@@ -50,7 +50,9 @@ fun ProductHorizontalList(
             items(state.products) {
                 ProductPortrait(
                     state = ProductPortraitState(product = it),
-                    config = ProductPortraitConfig()
+                    config = ProductPortraitConfig(
+                        onClick = config.onClick
+                    )
                 )
             }
         }
