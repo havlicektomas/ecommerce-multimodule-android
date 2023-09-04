@@ -2,6 +2,7 @@ package dev.havlicektomas.discovery_presentation.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +53,7 @@ fun ProductPortrait(
 
     Card(onClick = { config.onClick() }) {
         Column(
-            modifier = modifier.width(144.dp)
+            modifier = modifier
         ) {
             Box(
                 modifier = modifier
@@ -95,13 +98,24 @@ fun ProductPortrait(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = spacing.spaceSmall)
                 )
-                Button(onClick = { config.onAddToCartClick() }) {
-                    Row {
-                        Text(text = "+")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = { /*TODO*/ }) {
                         Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "cart icon"
+                            imageVector = Icons.Outlined.FavoriteBorder,
+                            contentDescription = "favorite product icon"
                         )
+                    }
+                    Button(onClick = { config.onAddToCartClick() }) {
+                        Row {
+                            Text(text = "+")
+                            Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = "cart icon"
+                            )
+                        }
                     }
                 }
             }
@@ -116,6 +130,7 @@ fun ProductPortrait(
 fun ProductPortraitPreview() {
     EcommercemultimoduleTheme {
         ProductPortrait(
+            modifier = Modifier.width(144.dp),
             state = ProductPortraitState(
                 Product(
                     id = "123",
