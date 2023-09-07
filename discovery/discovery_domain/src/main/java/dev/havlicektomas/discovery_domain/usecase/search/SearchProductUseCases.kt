@@ -8,8 +8,8 @@ import dev.havlicektomas.discovery_domain.usecase.SearchProductsUseCase
 
 data class SearchProductUseCases(
     val searchProductsUseCase: SearchProductsUseCase,
+    val fetchProductsUseCase: String,
     val getProductsUseCase: GetProductsUseCase,
-    val getProductByIdUseCase: GetProductByIdUseCase,
-    val getProductCategoriesUseCase: GetProductCategoriesUseCase,
-    val fetchProductCategoriesUseCase: FetchProductCategoriesUseCase
+    val fetchProductCategoriesUseCase: FetchProductCategoriesUseCase,
+    val getProductCategoriesUseCase: GetProductCategoriesUseCase
 )

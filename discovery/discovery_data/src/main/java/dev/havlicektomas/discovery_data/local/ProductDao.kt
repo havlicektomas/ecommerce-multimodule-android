@@ -33,6 +33,15 @@ interface ProductDao {
 
     @Query(
         """
+            DELETE
+            FROM productentity
+            WHERE category == 'favourite' AND productId == :productId
+        """
+    )
+    fun deleteFavouriteProductById(productId: String)
+
+    @Query(
+        """
             SELECT *
             FROM productentity
         """

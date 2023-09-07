@@ -1,4 +1,4 @@
-package dev.havlicektomas.discovery_domain.usecase
+package dev.havlicektomas.discovery_domain.usecase.favourites
 
 import dev.havlicektomas.discovery_domain.repository.FavouriteProductRepository
 

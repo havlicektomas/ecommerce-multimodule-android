@@ -3,6 +3,7 @@ package dev.havlicektomas.discovery_data.repository
 import dev.havlicektomas.discovery_data.local.ProductDao
 import dev.havlicektomas.discovery_data.mapper.toEntity
 import dev.havlicektomas.discovery_data.mapper.toProduct
+import dev.havlicektomas.discovery_data.mapper.toProductDto
 import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.remote.fakeProductsApiResponse
 import dev.havlicektomas.discovery_domain.model.Product
@@ -17,6 +18,7 @@ class ProductRepoImplclass @Inject constructor(
 ): ProductRepo {
     companion object {
         const val SEARCH_CATEGORY = "search"
+        const val FAVOURITE = "favourite"
     }
     override suspend fun fetchProducts(category: String) {
         val response = fakeProductsApiResponse(category)
@@ -41,6 +43,16 @@ class ProductRepoImplclass @Inject constructor(
                 val searchProductDto = productDto.copy(category = SEARCH_CATEGORY)
                 productDao.insertProduct(searchProductDto.toEntity())
             }
+        }
+    }
+
+    override suspend fun toggleFavouriteProduct(product: Product) {
+        val isFavourite = product.category == FAVOURITE
+        if (isFavourite) {
+            productDao.deleteFavouriteProductById(productId = product.id)
+        } else {
+            val favouriteProduct = product.copy(category = FAVOURITE)
+            productDao.insertProduct(favouriteProduct.toEntity())
         }
     }
 

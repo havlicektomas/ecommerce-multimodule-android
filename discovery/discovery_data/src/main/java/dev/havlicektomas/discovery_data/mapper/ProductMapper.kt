@@ -41,6 +41,17 @@ fun Product.toProductDto() = ProductDto(
     imageUrl = imageUrl
 )
 
+fun Product.toEntity() = ProductEntity(
+    productId = id,
+    name = name,
+    brand = brand,
+    description = description,
+    price = price,
+    category = category,
+    tag = tag,
+    imageUrl = imageUrl
+)
+
 fun ProductCategoryDto.toEntity() = ProductCategoryEntity(
     name = name,
     imageUrl = imageUrl,

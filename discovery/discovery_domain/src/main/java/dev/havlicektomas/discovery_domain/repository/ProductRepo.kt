@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface ProductRepo {
     suspend fun fetchProducts(category: String)
     suspend fun searchProducts(query: String)
+    suspend fun toggleFavouriteProduct(product: Product)
     fun getProducts(category: String): Flow<List<Product>>
 }
