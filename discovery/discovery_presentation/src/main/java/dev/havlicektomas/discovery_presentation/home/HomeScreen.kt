@@ -16,7 +16,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +38,6 @@ import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
 import dev.havlicektomas.discovery_presentation.components.ProductPortraitConfig
 import dev.havlicektomas.discovery_presentation.components.ProductPortraitState
 import dev.havlicektomas.discovery_presentation.components.navBarItems
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,6 +68,7 @@ fun HomeScreenView(
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
+    var isSheetVisible by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
     Row(
@@ -104,8 +107,7 @@ fun HomeScreenView(
                             config = ProductHorizontalListConfig(
                                 onClick = {
                                     scope.launch {
-                                        delay(500)
-                                        sheetState.show()
+                                        isSheetVisible = true
                                     }
                                 }
                             )
@@ -116,7 +118,7 @@ fun HomeScreenView(
                     Spacer(modifier = Modifier.height(32.dp))
                 }
             }
-            if (sheetState.isVisible) {
+            if (isSheetVisible) {
                 ProductDetailSheet(
                     modifier = Modifier.fillMaxWidth(),
                     state = ProductPortraitState(
@@ -133,7 +135,11 @@ fun HomeScreenView(
                     ),
                     config = ProductPortraitConfig(),
                     sheetState = sheetState,
-                    scope = scope
+                    onDismissRequest = {
+                        scope.launch {
+                            isSheetVisible = false
+                        }
+                    }
                 )
             }
         }

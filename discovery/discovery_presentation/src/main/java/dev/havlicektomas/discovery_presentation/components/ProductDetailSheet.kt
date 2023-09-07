@@ -19,6 +19,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +31,7 @@ import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.Product
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,12 +41,10 @@ fun ProductDetailSheet(
     state: ProductPortraitState,
     config: ProductPortraitConfig,
     sheetState: SheetState,
-    scope: CoroutineScope
+    onDismissRequest: () -> Job
 ) {
     ModalBottomSheet(
-        onDismissRequest = {
-             scope.launch { sheetState.hide() }
-        },
+        onDismissRequest = { onDismissRequest() },
         modifier = modifier,
         sheetState = sheetState
     ) {
@@ -96,8 +96,14 @@ fun ProductDetail(
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
+            Spacer(modifier = Modifier.height(spacing.spaceSmall))
+            Text(
+                text = state.product.description,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         }
-        Spacer(modifier = Modifier.height(spacing.spaceExtraLarge))
+        Spacer(modifier = Modifier.height(spacing.spaceSmall))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -120,7 +126,6 @@ fun ProductDetail(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(spacing.spaceSmall))
     }
 }
 
@@ -136,7 +141,7 @@ fun ProductDetailSheetPreview() {
                     id = "123",
                     name = "Asparagus",
                     brand = "Brand",
-                    description = "Some description",
+                    description = "Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description",
                     price = 9.99,
                     category = "category1",
                     tag = "featured",
