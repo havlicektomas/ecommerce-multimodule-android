@@ -65,6 +65,8 @@ class HomeScreenViewModel @Inject constructor(
     private fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
             homeUseCases.fetchHeroImagesUseCase()
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             homeUseCases.fetchProductsUseCase(HOME)
         }
     }
