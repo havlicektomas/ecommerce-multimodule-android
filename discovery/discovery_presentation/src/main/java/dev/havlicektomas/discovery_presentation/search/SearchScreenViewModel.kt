@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.havlicektomas.discovery_domain.usecase.search.SearchProductUseCases
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -18,10 +21,14 @@ class SearchScreenViewModel @Inject constructor(
     private val productUseCases: SearchProductUseCases
 ): ViewModel() {
 
-    private val defaultState = SearchScreenState("", "", emptyList())
+    private val defaultState = SearchScreenState("", emptyList(), emptyList())
 
-    val state: StateFlow<SearchScreenState> = productUseCases.getProductCategoriesUseCase().map { allCategories ->
-        defaultState.copy(productCategories = allCategories)
+    private val _state = MutableStateFlow(defaultState)
+    val state = combine(
+        _state,
+        productUseCases.getProductCategoriesUseCase()
+    ) { uiState, categories ->
+        uiState.copy(productCategories = categories)
     }
     .stateIn(
         viewModelScope,
@@ -35,8 +42,13 @@ class SearchScreenViewModel @Inject constructor(
 
     fun onEvent(event: SearchScreenEvent) {
         when (event) {
-            is SearchScreenEvent.onSearchInputChanged -> { searchProducts("query") }
-            is SearchScreenEvent.onCategoryClick -> { searchProducts("category-name") }
+            is SearchScreenEvent.OnSearchInputChanged -> {
+                _state.update {
+                    it.copy(searchInput = event.input)
+                }
+            }
+            is SearchScreenEvent.OnSearchIconClick -> { searchProducts("query") }
+            is SearchScreenEvent.OnCategoryClick -> { searchProducts("category-name") }
         }
     }
 

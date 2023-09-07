@@ -1,7 +1,6 @@
 package dev.havlicektomas.discovery_data.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -25,11 +24,29 @@ interface ProductDao {
 
     @Query(
         """
+            DELETE
+            FROM productentity
+            WHERE category == :category
+        """
+    )
+    fun deleteProducts(category: String)
+
+    @Query(
+        """
             SELECT *
             FROM productentity
         """
     )
     fun getProducts(): Flow<List<ProductEntity>>
+
+    @Query(
+        """
+            SELECT *
+            FROM productentity
+            WHERE category == :category
+        """
+    )
+    fun getProducts(category: String): Flow<List<ProductEntity>>
 
     @Query(
         """

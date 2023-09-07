@@ -47,7 +47,8 @@ fun SearchScreen(
         shouldShowNavRail = shouldShowNavRail,
         state = state,
         currentDestination = currentDestination,
-        onNavigate = onNavigate
+        onNavigate = onNavigate,
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -56,7 +57,8 @@ fun SearchScreenView(
     shouldShowNavRail: Boolean,
     state: SearchScreenState,
     currentDestination: NavDestination?,
-    onNavigate: (UiEvent.Navigate) -> Unit
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    onEvent: (SearchScreenEvent) -> Unit
 ) {
     val spacing = LocalSpacing.current
 
@@ -79,9 +81,9 @@ fun SearchScreenView(
                 modifier = Modifier.padding(contentPadding)
             ) {
                 SearchTextField(
-                    text = "Search",
-                    onTextChange = {},
-                    onSearchClick = {}
+                    text = state.searchInput,
+                    onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
+                    onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
                 )
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 136.dp),
@@ -111,7 +113,6 @@ fun SearchScreenPreview() {
             shouldShowNavRail = false,
             state = SearchScreenState(
                 searchInput = "",
-                searchPlaceHolder = "Search ...",
                 productCategories = listOf(
                     ProductCategory("Category 1", "", "category1"),
                     ProductCategory("Category 2", "", "category2"),
@@ -119,10 +120,12 @@ fun SearchScreenPreview() {
                     ProductCategory("Category 4", "", "category4"),
                     ProductCategory("Category 5", "", "category5"),
                     ProductCategory("Category 6", "", "category6"),
-                )
+                ),
+                productResults = emptyList()
             ),
             currentDestination = null,
-            onNavigate = {}
+            onNavigate = {},
+            onEvent = {}
         )
     }
 }

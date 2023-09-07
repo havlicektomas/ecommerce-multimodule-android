@@ -8,6 +8,8 @@ import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.remote.dto.ProductCategoryDto
 import dev.havlicektomas.discovery_data.remote.dto.ProductDto
 import dev.havlicektomas.discovery_data.remote.dto.ProductSearchDto
+import dev.havlicektomas.discovery_data.remote.fakeProductCategoriesApiResponse
+import dev.havlicektomas.discovery_data.remote.fakeSearchProductsApiResponse
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_domain.model.ProductCategory
 import dev.havlicektomas.discovery_domain.repository.ProductRepository
@@ -25,8 +27,7 @@ class ProductRepositoryImpl @Inject constructor(
         page: Int,
         pageSize: Int
     ) {
-        //val response = productApi.searchFood(query, page, pageSize)
-        val response = fakeProductApiResponse()
+        val response = fakeSearchProductsApiResponse()
         val products = response.body()?.products
 
         if (response.isSuccessful && products != null) {
@@ -87,59 +88,5 @@ class ProductRepositoryImpl @Inject constructor(
         productDao.deleteProductCategories()
     }
 
-    private fun fakeProductCategoriesApiResponse() = Response.success(
-        listOf(
-            ProductCategoryDto("Category 1", "", "category1"),
-            ProductCategoryDto("Category 2", "", "category2"),
-            ProductCategoryDto("Category 3", "", "category3"),
-            ProductCategoryDto("Category 4", "", "category4"),
-            ProductCategoryDto("Category 5", "", "category5"),
-            ProductCategoryDto("Category 6", "", "category6"),
-        )
-    )
 
-    private fun fakeProductApiResponse() = Response.success(
-        ProductSearchDto(
-            page = 1,
-            pageSize = 9,
-            products = listOf(
-                fakeFeaturedProductDto(), fakeFeaturedProductDto(), fakeFeaturedProductDto(),
-                fakeOnsaleProductDto(), fakeOnsaleProductDto(), fakeOnsaleProductDto(),
-                fakeForyouProductDto(), fakeForyouProductDto(), fakeForyouProductDto(),
-            )
-        )
-    )
-
-    private fun fakeFeaturedProductDto() = ProductDto(
-        id = "123",
-        name = "Product 1",
-        brand = "SomeBrand",
-        description = "Some description goes here",
-        price = 9.99,
-        category = "Category1",
-        tag = "featured",
-        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
-    )
-
-    private fun fakeOnsaleProductDto() = ProductDto(
-        id = "123",
-        name = "Product 1",
-        brand = "SomeBrand",
-        description = "Some description goes here",
-        price = 9.99,
-        category = "Category1",
-        tag = "onsale",
-        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
-    )
-
-    private fun fakeForyouProductDto() = ProductDto(
-        id = "123",
-        name = "Product 1",
-        brand = "SomeBrand",
-        description = "Some description goes here",
-        price = 9.99,
-        category = "Category1",
-        tag = "foryou",
-        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
-    )
 }
