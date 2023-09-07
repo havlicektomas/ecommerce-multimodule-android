@@ -12,8 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +46,7 @@ fun WelcomeScreenView(
     val spacing = LocalSpacing.current
 
     OnboardingScreen(
+        snackbarHostState = remember { SnackbarHostState() },
         onFabClick = { onNavigate(UiEvent.Navigate(Route.POLICIES)) }
     ) {
         Column(

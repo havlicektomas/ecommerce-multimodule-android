@@ -17,10 +17,13 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,6 +37,7 @@ import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.ecommerce.R
 import dev.havlicektomas.onboarding_presentation.OnboardingViewModel
 import dev.havlicektomas.onboarding_presentation.components.OnboardingScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun PolicyScreen(
@@ -56,11 +60,18 @@ fun PolicyScreenView(
     onAcceptedClick: () -> Unit
 ) {
     val spacing = LocalSpacing.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     OnboardingScreen(
+        snackbarHostState = snackbarHostState,
         onFabClick = {
             if (acceptedState) {
                 onNavigate(UiEvent.Navigate(Route.ACCOUNT))
+            } else {
+                scope.launch {
+                    snackbarHostState.showSnackbar("Please accept our policies")
+                }
             }
         }
     ) {
