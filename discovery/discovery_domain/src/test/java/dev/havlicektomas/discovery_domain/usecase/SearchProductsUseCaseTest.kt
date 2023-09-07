@@ -1,10 +1,9 @@
 package dev.havlicektomas.discovery_domain.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import dev.havlicektomas.discovery_domain.repository.ProductRepository
+import dev.havlicektomas.discovery_domain.usecase.search.SearchProductsUseCase
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope

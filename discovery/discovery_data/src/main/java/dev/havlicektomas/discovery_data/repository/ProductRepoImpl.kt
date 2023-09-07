@@ -1,9 +1,8 @@
 package dev.havlicektomas.discovery_data.repository
 
-import dev.havlicektomas.discovery_data.local.ProductDao
+import dev.havlicektomas.discovery_data.local.dao.ProductDao
 import dev.havlicektomas.discovery_data.mapper.toEntity
 import dev.havlicektomas.discovery_data.mapper.toProduct
-import dev.havlicektomas.discovery_data.mapper.toProductDto
 import dev.havlicektomas.discovery_data.remote.ProductApi
 import dev.havlicektomas.discovery_data.remote.fakeProductsApiResponse
 import dev.havlicektomas.discovery_domain.model.Product
@@ -12,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ProductRepoImplclass @Inject constructor(
+class ProductRepoImpl @Inject constructor(
     private val productApi: ProductApi,
     private val productDao: ProductDao
 ): ProductRepo {

@@ -1,4 +1,4 @@
-package dev.havlicektomas.discovery_data.local
+package dev.havlicektomas.discovery_data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,14 +13,6 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProduct(productEntity: ProductEntity)
-
-    @Query(
-        """
-            DELETE
-            FROM productentity
-        """
-    )
-    fun deleteProducts()
 
     @Query(
         """
@@ -44,14 +36,6 @@ interface ProductDao {
         """
             SELECT *
             FROM productentity
-        """
-    )
-    fun getProducts(): Flow<List<ProductEntity>>
-
-    @Query(
-        """
-            SELECT *
-            FROM productentity
             WHERE category == :category
         """
     )
@@ -65,23 +49,4 @@ interface ProductDao {
         """
     )
     fun getProductById(productId: String): Flow<ProductEntity>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCategory(productCategoryEntity: ProductCategoryEntity)
-
-    @Query(
-        """
-            DELETE
-            FROM productcategoryentity
-        """
-    )
-    fun deleteProductCategories()
-
-    @Query(
-        """
-            SELECT *
-            FROM productcategoryentity
-        """
-    )
-    fun getProductCategories(): Flow<List<ProductCategoryEntity>>
 }

@@ -26,12 +26,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
+import dev.havlicektomas.discovery_domain.model.HeroImage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HeroImageSlider(
     modifier: Modifier = Modifier,
-    images: List<String> = emptyList()
+    images: List<HeroImage> = emptyList()
 ) {
     val spacing = LocalSpacing.current
     val pageCount = images.size
@@ -42,7 +43,7 @@ fun HeroImageSlider(
     HorizontalPager(
         state = pagerState
     ) { page ->
-        val imageUrl = images[page]
+        val imageUrl = images[page].imageUrl
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -88,7 +89,11 @@ fun HeroImageSlider(
 fun HeroImageSliderPreview() {
     EcommercemultimoduleTheme {
         HeroImageSlider(
-            images = listOf("", "", "")
+            images = listOf(
+                HeroImage("1", "", ""),
+                HeroImage("2", "", ""),
+                HeroImage("3", "", "")
+            )
         )
     }
 }

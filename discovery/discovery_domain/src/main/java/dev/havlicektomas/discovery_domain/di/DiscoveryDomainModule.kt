@@ -5,18 +5,20 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.havlicektomas.discovery_domain.repository.FavouriteProductRepository
-import dev.havlicektomas.discovery_domain.repository.ProductRepository
-import dev.havlicektomas.discovery_domain.usecase.favourites.FetchFavouriteProductsUseCase
-import dev.havlicektomas.discovery_domain.usecase.FetchProductCategoriesUseCase
-import dev.havlicektomas.discovery_domain.usecase.favourites.GetFavouriteProductsUseCase
-import dev.havlicektomas.discovery_domain.usecase.GetProductByIdUseCase
-import dev.havlicektomas.discovery_domain.usecase.GetProductCategoriesUseCase
+import dev.havlicektomas.discovery_domain.repository.HeroImageRepo
+import dev.havlicektomas.discovery_domain.repository.ProductCategoryRepo
+import dev.havlicektomas.discovery_domain.repository.ProductRepo
+import dev.havlicektomas.discovery_domain.usecase.FetchProductsUseCase
+import dev.havlicektomas.discovery_domain.usecase.search.FetchProductCategoriesUseCase
+import dev.havlicektomas.discovery_domain.usecase.search.GetProductCategoriesUseCase
 import dev.havlicektomas.discovery_domain.usecase.GetProductsUseCase
-import dev.havlicektomas.discovery_domain.usecase.search.SearchProductUseCases
-import dev.havlicektomas.discovery_domain.usecase.SearchProductsUseCase
-import dev.havlicektomas.discovery_domain.usecase.favourites.ToggleFavouriteProductUseCase
-import dev.havlicektomas.discovery_domain.usecase.favourites.FavouriteProductUseCases
+import dev.havlicektomas.discovery_domain.usecase.search.SearchUseCases
+import dev.havlicektomas.discovery_domain.usecase.search.SearchProductsUseCase
+import dev.havlicektomas.discovery_domain.usecase.ToggleFavouriteProductUseCase
+import dev.havlicektomas.discovery_domain.usecase.favourites.FavouriteUseCases
+import dev.havlicektomas.discovery_domain.usecase.home.FetchHeroImagesUseCase
+import dev.havlicektomas.discovery_domain.usecase.home.GetHeroImagesUseCase
+import dev.havlicektomas.discovery_domain.usecase.home.HomeUseCases
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -24,27 +26,42 @@ object DiscoveryDomainModule {
 
     @ViewModelScoped
     @Provides
-    fun provideSearchProductUseCases(
-        repository: ProductRepository
-    ): SearchProductUseCases {
-        return SearchProductUseCases(
-            searchProductsUseCase = SearchProductsUseCase(repository),
-            getProductsUseCase = GetProductsUseCase(repository),
-            getProductByIdUseCase = GetProductByIdUseCase(repository),
-            getProductCategoriesUseCase = GetProductCategoriesUseCase(repository),
-            fetchProductCategoriesUseCase = FetchProductCategoriesUseCase(repository)
+    fun provideSearchUseCases(
+        productRepo: ProductRepo,
+        productCategoryRepo: ProductCategoryRepo
+    ): SearchUseCases {
+        return SearchUseCases(
+            searchProductsUseCase = SearchProductsUseCase(productRepo),
+            getProductsUseCase = GetProductsUseCase(productRepo),
+            getProductCategoriesUseCase = GetProductCategoriesUseCase(productCategoryRepo),
+            fetchProductCategoriesUseCase = FetchProductCategoriesUseCase(productCategoryRepo)
         )
     }
 
     @ViewModelScoped
     @Provides
-    fun provideFavouriteProductUseCases(
-        repository: FavouriteProductRepository
-    ): FavouriteProductUseCases {
-        return FavouriteProductUseCases(
-            fetchFavouriteProducts = FetchFavouriteProductsUseCase(repository),
-            getFavouriteProductsUseCase = GetFavouriteProductsUseCase(repository),
-            toggleFavouriteProductUseCase = ToggleFavouriteProductUseCase(repository)
+    fun provideFavouriteUseCases(
+        productRepo: ProductRepo
+    ): FavouriteUseCases {
+        return FavouriteUseCases(
+            fetchProductsUseCase = FetchProductsUseCase(productRepo),
+            getProductsUseCase = GetProductsUseCase(productRepo),
+            toggleFavouriteProductUseCase = ToggleFavouriteProductUseCase(productRepo)
+        )
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun provideHomeUseCases(
+        productRepo: ProductRepo,
+        heroImageRepo: HeroImageRepo
+    ): HomeUseCases {
+        return HomeUseCases(
+            fetchProductsUseCase = FetchProductsUseCase(productRepo),
+            getProductsUseCase = GetProductsUseCase(productRepo),
+            fetchHeroImagesUseCase = FetchHeroImagesUseCase(heroImageRepo),
+            getHeroImagesUseCase = GetHeroImagesUseCase(heroImageRepo),
+            toggleFavouriteProductUseCase = ToggleFavouriteProductUseCase(productRepo)
         )
     }
 }

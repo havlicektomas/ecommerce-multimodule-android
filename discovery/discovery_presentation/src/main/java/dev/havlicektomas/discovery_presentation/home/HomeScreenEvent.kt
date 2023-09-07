@@ -1,6 +1,7 @@
 package dev.havlicektomas.discovery_presentation.home
 
+import dev.havlicektomas.discovery_domain.model.Product
+
 sealed class HomeScreenEvent {
-    object OnHeroImageClick: HomeScreenEvent()
-    object OnProductListItemClick: HomeScreenEvent()
+    data class OnFavouritesProductClick(val product: Product): HomeScreenEvent()
 }

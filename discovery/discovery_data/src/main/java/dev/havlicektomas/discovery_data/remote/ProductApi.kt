@@ -20,12 +20,6 @@ interface ProductApi {
         @Query("page_size") pageSize: Int
     ): Response<ProductSearchDto>
 
-    @GET("products/categories")
-    suspend fun getProductCategories(): Response<List<ProductCategory>>
-
-    @GET("products/favourites")
-    suspend fun getFavouriteProducts(): Response<List<ProductDto>>
-
     @POST
     suspend fun toggleFavouriteProduct(
         @Body productDto: ProductDto
@@ -35,13 +29,6 @@ interface ProductApi {
         const val BASE_URL = "https://api.example.com/"
     }
 }
-
-fun fakeProductCategoriesApiResponse() = Response.success(
-    listOf(
-        ProductCategoryDto("Fruits", "", "fruits"),
-        ProductCategoryDto("Vegetables", "", "vegetables")
-    )
-)
 
 suspend fun fakeProductsApiResponse(category: String): Response<ProductSearchDto> {
     delay(1.seconds)

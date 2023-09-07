@@ -90,11 +90,7 @@ fun HomeScreenView(
                 item {
                     HeroImageSlider(
                         modifier = Modifier.fillMaxWidth(),
-                        images = listOf(
-                            "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085",
-                            "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085",
-                            "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
-                        )
+                        images = state.heroImages
                     )
                 }
                 items(state.productCategories.keys.toList()) { key ->
@@ -153,11 +149,11 @@ fun HomeScreenPreview() {
         HomeScreenView(
             shouldShowNavRail = false,
             state = HomeScreenState(
-                heroImageUrls = emptyList(),
+                heroImages = emptyList(),
                 productCategories = mapOf(
-                    "featured" to listOf(fakeFeaturedProductDto(), fakeFeaturedProductDto(), fakeFeaturedProductDto()),
-                    "onsale" to listOf(fakeOnsaleProductDto(), fakeOnsaleProductDto(), fakeOnsaleProductDto()),
-                    "foryou" to listOf(fakeForyouProductDto(), fakeForyouProductDto(), fakeForyouProductDto())
+                    "featured" to listOf(previewFeaturedProductDto(), previewFeaturedProductDto(), previewFeaturedProductDto()),
+                    "onsale" to listOf(previewOnsaleProductDto(), previewOnsaleProductDto(), previewOnsaleProductDto()),
+                    "foryou" to listOf(previewForyouProductDto(), previewForyouProductDto(), previewForyouProductDto())
                 )
             ),
             currentDestination = null,
@@ -166,7 +162,7 @@ fun HomeScreenPreview() {
     }
 }
 
-private fun fakeFeaturedProductDto() = Product(
+private fun previewFeaturedProductDto() = Product(
     id = "123",
     name = "Carrot",
     brand = "SomeBrand",
@@ -177,7 +173,7 @@ private fun fakeFeaturedProductDto() = Product(
     imageUrl = ""
 )
 
-private fun fakeOnsaleProductDto() = Product(
+private fun previewOnsaleProductDto() = Product(
     id = "123",
     name = "Potatoes",
     brand = "SomeBrand",
@@ -188,7 +184,7 @@ private fun fakeOnsaleProductDto() = Product(
     imageUrl = ""
 )
 
-private fun fakeForyouProductDto() = Product(
+private fun previewForyouProductDto() = Product(
     id = "123",
     name = "Pepper",
     brand = "SomeBrand",
