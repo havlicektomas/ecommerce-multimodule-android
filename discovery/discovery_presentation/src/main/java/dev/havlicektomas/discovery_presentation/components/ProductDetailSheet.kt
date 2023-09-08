@@ -19,7 +19,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,9 +29,7 @@ import coil.compose.AsyncImage
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.Product
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,7 +138,7 @@ fun ProductDetailSheetPreview() {
                     id = "123",
                     name = "Asparagus",
                     brand = "Brand",
-                    description = "Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description Some description",
+                    description = "Some description",
                     price = 9.99,
                     category = "category1",
                     tag = "featured",

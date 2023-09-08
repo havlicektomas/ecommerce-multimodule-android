@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -81,6 +82,7 @@ fun SearchScreenView(
                 modifier = Modifier.padding(contentPadding)
             ) {
                 SearchTextField(
+                    modifier = Modifier.widthIn(max = 600.dp),
                     text = state.searchInput,
                     onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
                     onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
