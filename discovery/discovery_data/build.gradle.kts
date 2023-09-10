@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.dagger.hilt)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 apply {
@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":discovery:discovery_domain"))
 
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.room)
     implementation(libs.room.ktx)
     implementation(libs.retrofit)
@@ -23,9 +23,4 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi.converter)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }

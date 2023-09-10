@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.google.services)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -27,9 +27,4 @@ dependencies {
     implementation(project(":discovery:discovery_presentation"))
 
     implementation(libs.pref.datastore)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }

@@ -29,7 +29,7 @@ android {
 dependencies {
     // Hilt
     implementation libs.dagger.hilt
-    kapt libs.dagger.hilt.compiler
+    ksp libs.dagger.hilt.compiler
 
     // Firebase BOM
     implementation platform(libs.firebase.bom)

@@ -28,14 +28,14 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.0'
     }
 }
 
 dependencies {
     // Hilt
     implementation libs.dagger.hilt
-    kapt libs.dagger.hilt.compiler
+    ksp libs.dagger.hilt.compiler
     implementation libs.hilt.navigation.compose
 
     // Android

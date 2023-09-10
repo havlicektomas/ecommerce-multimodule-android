@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.dagger.hilt)
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
 }
 
 apply {
@@ -14,9 +14,4 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":coreui"))
     implementation(project(":discovery:discovery_domain"))
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }
