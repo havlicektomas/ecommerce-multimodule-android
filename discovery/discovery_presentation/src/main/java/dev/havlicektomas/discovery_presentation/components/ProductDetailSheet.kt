@@ -2,13 +2,18 @@ package dev.havlicektomas.discovery_presentation.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
@@ -42,11 +47,11 @@ fun ProductDetailSheet(
 ) {
     ModalBottomSheet(
         onDismissRequest = { onDismissRequest() },
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxSize(),
         sheetState = sheetState
     ) {
         ProductDetail(
-            modifier = modifier,
             state = state,
             config = config
         )
@@ -55,17 +60,18 @@ fun ProductDetailSheet(
 
 @Composable
 fun ProductDetail(
-    modifier: Modifier = Modifier,
     state: ProductPortraitState,
     config: ProductPortraitConfig,
 ) {
     val spacing = LocalSpacing.current
 
     Column(
-        modifier = modifier
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
                 .background(color = Color.LightGray),
@@ -78,28 +84,31 @@ fun ProductDetail(
             )
         }
         Spacer(modifier = Modifier.height(spacing.spaceSmall))
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = spacing.spaceSmall)
-        ) {
-            Text(
-                text = state.product.name,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = state.product.brand,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.height(spacing.spaceSmall))
-            Text(
-                text = state.product.description,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+        repeat(10) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = spacing.spaceSmall)
+            ) {
+                Text(
+                    text = state.product.name,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = state.product.brand,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(spacing.spaceSmall))
+                Text(
+                    text = state.product.description,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
+
         Spacer(modifier = Modifier.height(spacing.spaceSmall))
         Column(
             modifier = Modifier
@@ -118,7 +127,7 @@ fun ProductDetail(
                     Text(text = "+")
                     Icon(
                         imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "product image"
+                        contentDescription = "cart icon"
                     )
                 }
             }
@@ -132,7 +141,6 @@ fun ProductDetail(
 fun ProductDetailSheetPreview() {
     EcommercemultimoduleTheme {
         ProductDetail(
-            modifier = Modifier.fillMaxWidth(),
             state = ProductPortraitState(
                 Product(
                     id = "123",
