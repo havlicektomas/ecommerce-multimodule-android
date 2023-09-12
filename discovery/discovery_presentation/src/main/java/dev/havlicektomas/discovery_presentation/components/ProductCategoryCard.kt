@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ data class ProductCategoryCardConfig(
     val onClick: () -> Unit = {}
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductCategoryCard(
     modifier: Modifier = Modifier,
@@ -30,7 +32,8 @@ fun ProductCategoryCard(
     val spacing = LocalSpacing.current
 
     Card(
-        modifier = Modifier,
+        onClick = { config.onClick() },
+        modifier = modifier,
     ) {
         Box(
             modifier = Modifier

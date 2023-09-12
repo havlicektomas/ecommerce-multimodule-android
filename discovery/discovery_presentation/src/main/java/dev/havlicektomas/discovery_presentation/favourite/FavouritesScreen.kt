@@ -70,7 +70,7 @@ fun FavouritesScreenView(
                 modifier = Modifier.padding(contentPadding),
                 state = ProductGridState(
                     title = "Favourites",
-                    products = listOf(product1, product2, product3)
+                    products = state.favouriteProducts
                 ),
                 config = ProductGridConfig()
             )

@@ -11,7 +11,8 @@ import dev.havlicektomas.discovery_data.local.entity.ProductEntity
 
 @Database(
     entities = [ProductEntity::class, ProductCategoryEntity::class, HeroImageEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class DiscoveryDatabase: RoomDatabase() {
 

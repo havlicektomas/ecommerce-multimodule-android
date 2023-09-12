@@ -6,7 +6,7 @@ core-ktx = "1.12.0"
 espresso-core = "3.5.1"
 junit = "4.13.2"
 lifecycle-runtime-ktx = "2.6.2"
-composeBom = "2023.08.00"
+composeBom = "2023.09.00"
 androidGradlePlugin = "8.1.1"
 androidKotlinPlugin = "1.9.0"
 ksp = "1.9.0-1.0.13"
@@ -16,7 +16,7 @@ dagger-hilt = "2.48"
 dagger-hilt-compiler = "2.48"
 coil = "2.4.0"
 retrofit = "2.9.0"
-okhttp = "5.0.0-alpha.2"
+okhttp = "5.0.0-alpha.10"
 moshi = "1.14.0"
 room = "2.5.2"
 pref-datastore = "1.0.0"
@@ -43,6 +43,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-material-icons = { group = "androidx.compose.material:material-icons-extended-android", name = "icons-extended" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt-compiler" }

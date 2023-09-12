@@ -6,11 +6,7 @@ class SearchProductsUseCase(
     private val repository: ProductRepo
 ) {
 
-    operator suspend fun invoke(
-        query: String,
-        page: Int = 1,
-        pageSize: Int = 40
-    ) {
+    suspend operator fun invoke(query: String) {
         if(query.isNotBlank()) {
             repository.searchProducts(query.trim())
         }

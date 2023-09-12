@@ -113,7 +113,7 @@ fun ProductDetail(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(end = spacing.spaceSmall)
             )
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { config.onAddToCartClick() }) {
                 Row {
                     Text(text = "+")
                     Icon(
