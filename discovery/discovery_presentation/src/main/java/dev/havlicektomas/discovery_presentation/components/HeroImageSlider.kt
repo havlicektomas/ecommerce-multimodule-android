@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,9 +65,9 @@ fun HeroImageSlider(
             ) {
                 repeat(pageCount) { iteration ->
                     val color = if (pagerState.currentPage == iteration) {
-                        MaterialTheme.colorScheme.primary
+                        Color.Red
                     } else {
-                        MaterialTheme.colorScheme.tertiary
+                        Color.White
                     }
                     Box(
                         modifier = Modifier

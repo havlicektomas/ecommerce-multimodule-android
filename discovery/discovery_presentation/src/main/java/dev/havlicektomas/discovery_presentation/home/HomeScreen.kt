@@ -3,12 +3,10 @@ package dev.havlicektomas.discovery_presentation.home
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
+import dev.havlicektomas.discovery_domain.model.HeroImage
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_presentation.components.HeroImageSlider
 import dev.havlicektomas.discovery_presentation.components.MainNavigationRail
@@ -135,7 +134,7 @@ fun HomeScreenView(
                             price = 9.99,
                             category = "category1",
                             tag = "featured",
-                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/cabbage.webp?alt=media&token=de5c45db-a017-43b1-aae8-9dd0bf9f1085"
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/demo%2Fveggies%2Fasparagus.webp?alt=media&token=1f29feac-f30b-4e36-b9fe-f252bc009494"
                         )
                     ),
                     config = ProductPortraitConfig(),
@@ -160,7 +159,11 @@ fun HomeScreenPreview() {
         HomeScreenView(
             shouldShowNavRail = false,
             state = HomeScreenState(
-                heroImages = emptyList(),
+                heroImages = listOf(
+                    HeroImage("1", "", ""),
+                    HeroImage("2", "", ""),
+                    HeroImage("3", "", "")
+                ),
                 productCategories = mapOf(
                     "featured" to listOf(previewFeaturedProductDto(), previewFeaturedProductDto(), previewFeaturedProductDto()),
                     "onsale" to listOf(previewOnsaleProductDto(), previewOnsaleProductDto(), previewOnsaleProductDto()),
