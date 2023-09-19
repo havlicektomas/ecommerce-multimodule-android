@@ -4,8 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,13 +23,11 @@ import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.ProductCategory
-import dev.havlicektomas.discovery_presentation.components.MainNavigationRail
-import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
+import dev.havlicektomas.discovery_presentation.components.MainScreenScaffoldWithNavRail
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCard
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardConfig
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardState
 import dev.havlicektomas.discovery_presentation.components.SearchTextField
-import dev.havlicektomas.discovery_presentation.components.navBarItems
 
 @Composable
 fun SearchScreen(
@@ -63,43 +59,32 @@ fun SearchScreenView(
 ) {
     val spacing = LocalSpacing.current
 
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (shouldShowNavRail) {
-            MainNavigationRail(
-                currentDestination = currentDestination,
-                items = navBarItems,
-                onItemClick = onNavigate
+    MainScreenScaffoldWithNavRail(
+        shouldShowNavRail = shouldShowNavRail,
+        currentDestination = currentDestination,
+        onBottomBarItemClick = onNavigate
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier.padding(contentPadding)
+        ) {
+            SearchTextField(
+                modifier = Modifier.widthIn(max = 600.dp),
+                text = state.searchInput,
+                onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
+                onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
             )
-        }
-        MainScreenScaffold(
-            shouldShowNavRail = shouldShowNavRail,
-            currentDestination = currentDestination,
-            onBottomBarItemClick = onNavigate
-        ) { contentPadding ->
-            Column(
-                modifier = Modifier.padding(contentPadding)
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 136.dp),
+                contentPadding = PaddingValues(spacing.spaceSmall),
+                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                modifier = Modifier
             ) {
-                SearchTextField(
-                    modifier = Modifier.widthIn(max = 600.dp),
-                    text = state.searchInput,
-                    onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
-                    onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
-                )
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 136.dp),
-                    contentPadding = PaddingValues(spacing.spaceSmall),
-                    verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                    horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                    modifier = Modifier
-                ) {
-                    items(state.productCategories) {category ->
-                        ProductCategoryCard(
-                            state = ProductCategoryCardState(name = category.name),
-                            config = ProductCategoryCardConfig(onClick = {})
-                        )
-                    }
+                items(state.productCategories) {category ->
+                    ProductCategoryCard(
+                        state = ProductCategoryCardState(name = category.name),
+                        config = ProductCategoryCardConfig(onClick = {})
+                    )
                 }
             }
         }

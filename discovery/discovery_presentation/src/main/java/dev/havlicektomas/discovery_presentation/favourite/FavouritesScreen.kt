@@ -1,8 +1,6 @@
 package dev.havlicektomas.discovery_presentation.favourite
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -15,12 +13,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
 import dev.havlicektomas.core.util.UiEvent
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
-import dev.havlicektomas.discovery_presentation.components.MainNavigationRail
-import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
+import dev.havlicektomas.discovery_presentation.components.MainScreenScaffoldWithNavRail
 import dev.havlicektomas.discovery_presentation.components.ProductGrid
 import dev.havlicektomas.discovery_presentation.components.ProductGridConfig
 import dev.havlicektomas.discovery_presentation.components.ProductGridState
-import dev.havlicektomas.discovery_presentation.components.navBarItems
 import dev.havlicektomas.discovery_presentation.components.preview_util.product1
 import dev.havlicektomas.discovery_presentation.components.preview_util.product2
 import dev.havlicektomas.discovery_presentation.components.preview_util.product3
@@ -51,30 +47,19 @@ fun FavouritesScreenView(
     currentDestination: NavDestination?,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (shouldShowNavRail) {
-            MainNavigationRail(
-                currentDestination = currentDestination,
-                items = navBarItems,
-                onItemClick = onNavigate
-            )
-        }
-        MainScreenScaffold(
-            shouldShowNavRail = shouldShowNavRail,
-            currentDestination = currentDestination,
-            onBottomBarItemClick = onNavigate
-        ) { contentPadding ->
-            ProductGrid(
-                modifier = Modifier.padding(contentPadding),
-                state = ProductGridState(
-                    title = "Favourites",
-                    products = state.favouriteProducts
-                ),
-                config = ProductGridConfig()
-            )
-        }
+    MainScreenScaffoldWithNavRail(
+        shouldShowNavRail = shouldShowNavRail,
+        currentDestination = currentDestination,
+        onBottomBarItemClick = onNavigate
+    ) { contentPadding ->
+        ProductGrid(
+            modifier = Modifier.padding(contentPadding),
+            state = ProductGridState(
+                title = "Favourites",
+                products = state.favouriteProducts
+            ),
+            config = ProductGridConfig()
+        )
     }
 }
 

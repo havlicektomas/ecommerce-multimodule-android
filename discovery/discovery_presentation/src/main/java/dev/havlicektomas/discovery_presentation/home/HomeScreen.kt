@@ -1,9 +1,7 @@
 package dev.havlicektomas.discovery_presentation.home
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,15 +29,13 @@ import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.discovery_domain.model.HeroImage
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_presentation.components.HeroImageSlider
-import dev.havlicektomas.discovery_presentation.components.MainNavigationRail
-import dev.havlicektomas.discovery_presentation.components.MainScreenScaffold
+import dev.havlicektomas.discovery_presentation.components.MainScreenScaffoldWithNavRail
 import dev.havlicektomas.discovery_presentation.components.ProductDetailSheet
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListConfig
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListState
 import dev.havlicektomas.discovery_presentation.components.ProductPortraitConfig
 import dev.havlicektomas.discovery_presentation.components.ProductPortraitState
-import dev.havlicektomas.discovery_presentation.components.navBarItems
 import kotlinx.coroutines.launch
 
 @Composable
@@ -75,77 +71,65 @@ fun HomeScreenView(
     var isSheetVisible by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (shouldShowNavRail) {
-            MainNavigationRail(
-                currentDestination = currentDestination,
-                items = navBarItems,
-                onItemClick = onNavigate
-            )
-        }
-        MainScreenScaffold(
-            shouldShowNavRail = shouldShowNavRail,
-            badgeCount = 0,
-            currentDestination = currentDestination,
-            onBottomBarItemClick = onNavigate
-        ) { contentPadding ->
-            LazyColumn(
-                contentPadding = contentPadding
-            ) {
-                item {
-                    HeroImageSlider(
-                        modifier = Modifier.fillMaxWidth(),
-                        images = state.heroImages
-                    )
-                }
-                items(state.productCategories.keys.toList()) { key ->
-                    state.productCategories[key]?.let {products ->
-                        ProductHorizontalList(
-                            modifier = Modifier.fillMaxWidth(),
-                            state = ProductHorizontalListState(
-                                title = key,
-                                products = products
-                            ),
-                            config = ProductHorizontalListConfig(
-                                onClick = {
-                                    scope.launch {
-                                        isSheetVisible = true
-                                    }
-                                }
-                            )
-                        )
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-            }
-            if (isSheetVisible) {
-                ProductDetailSheet(
-                    modifier = Modifier.padding(contentPadding),
-                    state = ProductPortraitState(
-                        Product(
-                            id = "123",
-                            name = "Asparagus",
-                            brand = "Brand",
-                            description = "Some description",
-                            price = 9.99,
-                            category = "category1",
-                            tag = "featured",
-                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/demo%2Fveggies%2Fasparagus.webp?alt=media&token=1f29feac-f30b-4e36-b9fe-f252bc009494"
-                        )
-                    ),
-                    config = ProductPortraitConfig(),
-                    sheetState = sheetState,
-                    onDismissRequest = {
-                        scope.launch {
-                            isSheetVisible = false
-                        }
-                    }
+    MainScreenScaffoldWithNavRail(
+        shouldShowNavRail = shouldShowNavRail,
+        currentDestination = currentDestination,
+        onBottomBarItemClick = onNavigate
+    ) { contentPadding ->
+        LazyColumn(
+            contentPadding = contentPadding
+        ) {
+            item {
+                HeroImageSlider(
+                    modifier = Modifier.fillMaxWidth(),
+                    images = state.heroImages
                 )
             }
+            items(state.productCategories.keys.toList()) { key ->
+                state.productCategories[key]?.let {products ->
+                    ProductHorizontalList(
+                        modifier = Modifier.fillMaxWidth(),
+                        state = ProductHorizontalListState(
+                            title = key,
+                            products = products
+                        ),
+                        config = ProductHorizontalListConfig(
+                            onClick = {
+                                scope.launch {
+                                    isSheetVisible = true
+                                }
+                            }
+                        )
+                    )
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+        }
+        if (isSheetVisible) {
+            ProductDetailSheet(
+                modifier = Modifier.padding(contentPadding),
+                state = ProductPortraitState(
+                    Product(
+                        id = "123",
+                        name = "Asparagus",
+                        brand = "Brand",
+                        description = "Some description",
+                        price = 9.99,
+                        category = "category1",
+                        tag = "featured",
+                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/demo%2Fveggies%2Fasparagus.webp?alt=media&token=1f29feac-f30b-4e36-b9fe-f252bc009494"
+                    )
+                ),
+                config = ProductPortraitConfig(),
+                sheetState = sheetState,
+                onDismissRequest = {
+                    scope.launch {
+                        isSheetVisible = false
+                    }
+                }
+            )
         }
     }
 }
