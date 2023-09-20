@@ -1,18 +1,16 @@
 package dev.havlicektomas.discovery_presentation.home
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_domain.usecase.home.HomeUseCases
-import dev.havlicektomas.discovery_domain.usecase.search.SearchUseCases
-import dev.havlicektomas.discovery_presentation.favourite.FavouritesScreenEvent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,6 +48,8 @@ class HomeScreenViewModel @Inject constructor(
         defaultState
     )
 
+    var selectedProduct by mutableStateOf<Product?>(null)
+
     init {
         fetchData()
     }
@@ -58,6 +58,12 @@ class HomeScreenViewModel @Inject constructor(
         when (event) {
             is HomeScreenEvent.OnFavouritesProductClick -> {
                 toggleFavouriteProduct(event.product)
+            }
+            is HomeScreenEvent.OnProductDetailShow -> {
+                selectedProduct = event.product
+            }
+            is HomeScreenEvent.OnProductDetailHide -> {
+                selectedProduct = null
             }
         }
     }

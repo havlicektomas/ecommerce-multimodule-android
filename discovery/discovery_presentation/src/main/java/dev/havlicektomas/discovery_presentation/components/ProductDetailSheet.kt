@@ -2,18 +2,15 @@ package dev.havlicektomas.discovery_presentation.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.ScrollableState
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
@@ -34,21 +31,33 @@ import coil.compose.AsyncImage
 import dev.havlicektomas.coreui.theme.EcommercemultimoduleTheme
 import dev.havlicektomas.coreui.theme.LocalSpacing
 import dev.havlicektomas.discovery_domain.model.Product
+import dev.havlicektomas.discovery_presentation.components.preview_util.loremIpsumText
 import kotlinx.coroutines.Job
+
+data class ProductDetailState(
+    val product: Product
+)
+
+data class ProductDetailConfig(
+    val elements: List<String> = listOf("title", "brand", "description", "price"),
+    val onFavouriteClick: () -> Unit = {},
+    val onAddToCartClick: () -> Unit = {}
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailSheet(
     modifier: Modifier = Modifier,
-    state: ProductPortraitState,
-    config: ProductPortraitConfig,
+    state: ProductDetailState,
+    config: ProductDetailConfig,
     sheetState: SheetState,
     onDismissRequest: () -> Job
 ) {
     ModalBottomSheet(
         onDismissRequest = { onDismissRequest() },
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxHeight()
+            .widthIn(440.dp),
         sheetState = sheetState
     ) {
         ProductDetail(
@@ -60,75 +69,88 @@ fun ProductDetailSheet(
 
 @Composable
 fun ProductDetail(
-    state: ProductPortraitState,
-    config: ProductPortraitConfig,
+    state: ProductDetailState,
+    config: ProductDetailConfig,
 ) {
     val spacing = LocalSpacing.current
 
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 80.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-                .background(color = Color.LightGray),
-            contentAlignment = Alignment.Center
-        ) {
+        item {
             AsyncImage(
                 model = state.product.imageUrl,
                 contentDescription = "product image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(320.dp)
+                    .background(color = Color.LightGray),
                 contentScale = ContentScale.Crop
             )
         }
-        Spacer(modifier = Modifier.height(spacing.spaceSmall))
-        repeat(10) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = spacing.spaceSmall)
-            ) {
-                Text(
-                    text = state.product.name,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = state.product.brand,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(spacing.spaceSmall))
-                Text(
-                    text = state.product.description,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(spacing.spaceSmall))
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = spacing.spaceSmall),
-            horizontalAlignment = Alignment.End
-        ) {
-            Text(
-                text = state.product.price.toString(),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(end = spacing.spaceSmall)
-            )
-            Button(onClick = { config.onAddToCartClick() }) {
-                Row {
-                    Text(text = "+")
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "cart icon"
-                    )
+        config.elements.forEach {element ->
+            when (element) {
+                "title" -> {
+                    item {
+                        Text(
+                            text = state.product.name,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(
+                                start = spacing.spaceMedium,
+                                end = spacing.spaceMedium,
+                                top = spacing.spaceMedium,
+                                bottom = 0.dp
+                            )
+                        )
+                    }
+                }
+                "brand" -> {
+                    item {
+                        Text(
+                            text = state.product.brand,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(
+                                vertical = spacing.spaceExtraSmall,
+                                horizontal = spacing.spaceMedium
+                            )
+                        )
+                    }
+                }
+                "description" -> {
+                    item {
+                        Text(
+                            text = loremIpsumText,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(spacing.spaceMedium)
+                        )
+                    }
+                }
+                "price" -> {
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(spacing.spaceMedium),
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Text(
+                                text = "$ ${state.product.price}",
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Button(onClick = { config.onAddToCartClick() }) {
+                                Icon(
+                                    imageVector = Icons.Default.ShoppingCart,
+                                    contentDescription = "cart icon"
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -141,19 +163,19 @@ fun ProductDetail(
 fun ProductDetailSheetPreview() {
     EcommercemultimoduleTheme {
         ProductDetail(
-            state = ProductPortraitState(
+            state = ProductDetailState(
                 Product(
                     id = "123",
                     name = "Asparagus",
                     brand = "Brand",
-                    description = "Some description",
+                    description = loremIpsumText,
                     price = 9.99,
                     category = "category1",
                     tag = "featured",
                     imageUrl = ""
                 )
             ),
-            config = ProductPortraitConfig()
+            config = ProductDetailConfig()
         )
     }
 }

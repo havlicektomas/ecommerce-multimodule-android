@@ -30,12 +30,13 @@ import dev.havlicektomas.discovery_domain.model.HeroImage
 import dev.havlicektomas.discovery_domain.model.Product
 import dev.havlicektomas.discovery_presentation.components.HeroImageSlider
 import dev.havlicektomas.discovery_presentation.components.MainScreenScaffoldWithNavRail
+import dev.havlicektomas.discovery_presentation.components.ProductDetailConfig
 import dev.havlicektomas.discovery_presentation.components.ProductDetailSheet
+import dev.havlicektomas.discovery_presentation.components.ProductDetailState
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalList
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListConfig
 import dev.havlicektomas.discovery_presentation.components.ProductHorizontalListState
-import dev.havlicektomas.discovery_presentation.components.ProductPortraitConfig
-import dev.havlicektomas.discovery_presentation.components.ProductPortraitState
+import dev.havlicektomas.discovery_presentation.components.preview_util.loremIpsumText
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,13 +47,15 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
     val shouldShowNavRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
 
     HomeScreenView(
         shouldShowNavRail = shouldShowNavRail,
         state = state,
         currentDestination = currentDestination,
+        selectedProduct = viewModel.selectedProduct,
+        onProductDetailShow = { product -> viewModel.onEvent(HomeScreenEvent.OnProductDetailShow(product)) },
+        onProductDetailHide = { viewModel.onEvent(HomeScreenEvent.OnProductDetailHide) },
         onNavigate = onNavigate
     )
 }
@@ -63,6 +66,9 @@ fun HomeScreenView(
     shouldShowNavRail: Boolean,
     state: HomeScreenState,
     currentDestination: NavDestination?,
+    selectedProduct: Product?,
+    onProductDetailShow: (product: Product) -> Unit,
+    onProductDetailHide: () -> Unit,
     onNavigate: (UiEvent.Navigate) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -86,7 +92,7 @@ fun HomeScreenView(
                 )
             }
             items(state.productCategories.keys.toList()) { key ->
-                state.productCategories[key]?.let {products ->
+                state.productCategories[key]?.let { products ->
                     ProductHorizontalList(
                         modifier = Modifier.fillMaxWidth(),
                         state = ProductHorizontalListState(
@@ -94,8 +100,9 @@ fun HomeScreenView(
                             products = products
                         ),
                         config = ProductHorizontalListConfig(
-                            onClick = {
+                            onProductClick = { product ->
                                 scope.launch {
+                                    onProductDetailShow(product)
                                     isSheetVisible = true
                                 }
                             }
@@ -108,28 +115,22 @@ fun HomeScreenView(
             }
         }
         if (isSheetVisible) {
-            ProductDetailSheet(
-                modifier = Modifier.padding(contentPadding),
-                state = ProductPortraitState(
-                    Product(
-                        id = "123",
-                        name = "Asparagus",
-                        brand = "Brand",
-                        description = "Some description",
-                        price = 9.99,
-                        category = "category1",
-                        tag = "featured",
-                        imageUrl = "https://firebasestorage.googleapis.com/v0/b/ecommerce-multimodule.appspot.com/o/demo%2Fveggies%2Fasparagus.webp?alt=media&token=1f29feac-f30b-4e36-b9fe-f252bc009494"
-                    )
-                ),
-                config = ProductPortraitConfig(),
-                sheetState = sheetState,
-                onDismissRequest = {
-                    scope.launch {
-                        isSheetVisible = false
+            selectedProduct?.let {
+                ProductDetailSheet(
+                    modifier = Modifier.padding(contentPadding),
+                    state = ProductDetailState(
+                        product = it.copy(description = loremIpsumText)
+                    ),
+                    config = ProductDetailConfig(),
+                    sheetState = sheetState,
+                    onDismissRequest = {
+                        scope.launch {
+                            onProductDetailHide()
+                            isSheetVisible = false
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
@@ -155,6 +156,9 @@ fun HomeScreenPreview() {
                 )
             ),
             currentDestination = null,
+            selectedProduct = null,
+            onProductDetailShow = {},
+            onProductDetailHide = {},
             onNavigate = {}
         )
     }

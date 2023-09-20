@@ -27,7 +27,7 @@ data class ProductHorizontalListState(
 )
 
 data class ProductHorizontalListConfig(
-    val onClick: () -> Unit = {},
+    val onProductClick: (product: Product) -> Unit = {},
     val onAddToCartClick: () -> Unit = {}
 )
 
@@ -57,7 +57,7 @@ fun ProductHorizontalList(
                     modifier = Modifier.width(144.dp),
                     state = ProductPortraitState(product = it),
                     config = ProductPortraitConfig(
-                        onClick = config.onClick
+                        onClick = { config.onProductClick(it) }
                     )
                 )
             }
