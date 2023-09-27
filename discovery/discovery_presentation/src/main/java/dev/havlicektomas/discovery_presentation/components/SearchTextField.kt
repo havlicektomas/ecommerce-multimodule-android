@@ -1,9 +1,7 @@
 package dev.havlicektomas.discovery_presentation.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -26,19 +24,19 @@ fun SearchTextField(
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         OutlinedTextField(
             value = text,
             onValueChange = onTextChange,
             shape = RoundedCornerShape(50.dp),
             placeholder = { Text(text = "Search") },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .padding(end = 40.dp)
         )
         IconButton(
-            modifier = Modifier.align(Alignment.CenterEnd),
+            modifier = Modifier,
             onClick = onSearchClick
         ) {
             Icon(

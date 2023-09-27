@@ -22,11 +22,16 @@ class SearchScreenViewModel @Inject constructor(
     private val defaultState = SearchScreenState("", emptyList(), emptyList())
 
     private val _state = MutableStateFlow(defaultState)
+
     val state = combine(
         _state,
-        productUseCases.getProductCategoriesUseCase()
-    ) { uiState, categories ->
-        uiState.copy(productCategories = categories)
+        productUseCases.getProductCategoriesUseCase(),
+        productUseCases.getProductsUseCase(SEARCH_CATEGORY)
+    ) { uiState, categories, products ->
+        uiState.copy(
+            productCategories = categories,
+            productResults = products
+        )
     }
     .stateIn(
         viewModelScope,
@@ -42,11 +47,17 @@ class SearchScreenViewModel @Inject constructor(
         when (event) {
             is SearchScreenEvent.OnSearchInputChanged -> {
                 _state.update {
-                    it.copy(searchInput = event.input)
+                    it.copy(
+                        searchInput = event.input
+                    )
                 }
             }
-            is SearchScreenEvent.OnSearchIconClick -> { searchProducts("query") }
-            is SearchScreenEvent.OnCategoryClick -> { searchProducts("category-name") }
+            is SearchScreenEvent.OnSearchIconClick -> {
+                searchProducts(event.term)
+            }
+            is SearchScreenEvent.OnCategoryClick -> {
+                searchProducts(event.category)
+            }
         }
     }
 
@@ -62,5 +73,9 @@ class SearchScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             productUseCases.searchProductsUseCase(query)
         }
+    }
+
+    companion object {
+        const val SEARCH_CATEGORY = "search"
     }
 }

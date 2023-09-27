@@ -2,8 +2,11 @@ package dev.havlicektomas.discovery_presentation.search
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,6 +17,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +31,9 @@ import dev.havlicektomas.discovery_presentation.components.MainScreenScaffoldWit
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCard
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardConfig
 import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardState
+import dev.havlicektomas.discovery_presentation.components.ProductGrid
+import dev.havlicektomas.discovery_presentation.components.ProductGridConfig
+import dev.havlicektomas.discovery_presentation.components.ProductGridState
 import dev.havlicektomas.discovery_presentation.components.SearchTextField
 
 @Composable
@@ -60,31 +67,57 @@ fun SearchScreenView(
     val spacing = LocalSpacing.current
 
     MainScreenScaffoldWithNavRail(
+        modifier = Modifier.fillMaxWidth(),
         shouldShowNavRail = shouldShowNavRail,
         currentDestination = currentDestination,
         onBottomBarItemClick = onNavigate
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
         ) {
-            SearchTextField(
-                modifier = Modifier.widthIn(max = 600.dp),
-                text = state.searchInput,
-                onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
-                onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 136.dp),
-                contentPadding = PaddingValues(spacing.spaceSmall),
-                verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
-                modifier = Modifier
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
             ) {
-                items(state.productCategories) {category ->
-                    ProductCategoryCard(
-                        state = ProductCategoryCardState(name = category.name),
-                        config = ProductCategoryCardConfig(onClick = {})
-                    )
+                SearchTextField(
+                    modifier = Modifier
+                        .widthIn(max = 500.dp)
+                        .padding(vertical = spacing.spaceMedium),
+                    text = state.searchInput,
+                    onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
+                    onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
+                )
+            }
+            if (state.productResults.isNotEmpty()) {
+                ProductGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    state = ProductGridState(
+                        title = "Found ${state.productResults.size} results",
+                        products = state.productResults
+                    ),
+                    config = ProductGridConfig()
+                )
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 136.dp),
+                    contentPadding = PaddingValues(spacing.spaceSmall),
+                    verticalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                    horizontalArrangement = Arrangement.spacedBy(spacing.spaceSmall),
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    items(state.productCategories) {category ->
+                        ProductCategoryCard(
+                            state = ProductCategoryCardState(name = category.name),
+                            config = ProductCategoryCardConfig(
+                                onClick = {
+                                    onEvent(SearchScreenEvent.OnCategoryClick(category.name))
+                                }
+                            )
+                        )
+                    }
                 }
             }
         }
