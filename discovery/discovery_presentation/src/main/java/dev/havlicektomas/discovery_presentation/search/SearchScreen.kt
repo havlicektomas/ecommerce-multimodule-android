@@ -1,6 +1,7 @@
 package dev.havlicektomas.discovery_presentation.search
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -34,7 +42,6 @@ import dev.havlicektomas.discovery_presentation.components.ProductCategoryCardSt
 import dev.havlicektomas.discovery_presentation.components.ProductGrid
 import dev.havlicektomas.discovery_presentation.components.ProductGridConfig
 import dev.havlicektomas.discovery_presentation.components.ProductGridState
-import dev.havlicektomas.discovery_presentation.components.SearchTextField
 
 @Composable
 fun SearchScreen(
@@ -56,6 +63,7 @@ fun SearchScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreenView(
     shouldShowNavRail: Boolean,
@@ -78,28 +86,50 @@ fun SearchScreenView(
                 .padding(contentPadding)
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = spacing.spaceMedium, bottom = spacing.spaceLarge),
                 contentAlignment = Alignment.Center
             ) {
-                SearchTextField(
-                    modifier = Modifier
-                        .widthIn(max = 500.dp)
-                        .padding(vertical = spacing.spaceMedium),
-                    text = state.searchInput,
-                    onTextChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
-                    onSearchClick = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) }
-                )
+                SearchBar(
+                    modifier = Modifier.widthIn(max = 500.dp),
+                    query = state.searchInput,
+                    onQueryChange = { onEvent(SearchScreenEvent.OnSearchInputChanged(it)) },
+                    onSearch = { onEvent(SearchScreenEvent.OnSearchIconClick(state.searchInput)) },
+                    active = state.isSearching,
+                    onActiveChange = {
+                          // TODO: add event to toggle isSearching in state
+                    },
+                    placeholder = { Text(text = "Search ...") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = "search icon"
+                        )
+                    },
+                    trailingIcon = {
+                        if (state.isSearching) {
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = "search icon",
+                                modifier = Modifier.clickable {
+                                    onEvent(SearchScreenEvent.OnSearchInputChanged(""))
+                                }
+                            )
+                        }
+                    }
+                ) {
+                    ProductGrid(
+                        modifier = Modifier.fillMaxSize(),
+                        state = ProductGridState(
+                            title = "Found ${state.productResults.size} results",
+                            products = state.productResults
+                        ),
+                        config = ProductGridConfig()
+                    )
+                }
             }
-            if (state.productResults.isNotEmpty()) {
-                ProductGrid(
-                    modifier = Modifier.fillMaxSize(),
-                    state = ProductGridState(
-                        title = "Found ${state.productResults.size} results",
-                        products = state.productResults
-                    ),
-                    config = ProductGridConfig()
-                )
-            } else {
+            if (!state.isSearching) {
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 136.dp),
                     contentPadding = PaddingValues(spacing.spaceSmall),
@@ -113,7 +143,8 @@ fun SearchScreenView(
                             state = ProductCategoryCardState(name = category.name),
                             config = ProductCategoryCardConfig(
                                 onClick = {
-                                    onEvent(SearchScreenEvent.OnCategoryClick(category.name))
+                                    //onEvent(SearchScreenEvent.OnCategoryClick(category.name))
+                                    onEvent(SearchScreenEvent.OnSearchInputChanged(category.name))
                                 }
                             )
                         )

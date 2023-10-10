@@ -48,7 +48,8 @@ class SearchScreenViewModel @Inject constructor(
             is SearchScreenEvent.OnSearchInputChanged -> {
                 _state.update {
                     it.copy(
-                        searchInput = event.input
+                        searchInput = event.input,
+                        isSearching = event.input.isNotBlank()
                     )
                 }
             }
